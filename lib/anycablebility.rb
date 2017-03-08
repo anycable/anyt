@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require "anycablebility/version"
+
+require 'anycablebility/version'
 
 # Anycable conformance testing tool
 module Anycablebility

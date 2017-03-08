@@ -1,3 +1,6 @@
 # frozen_string_literal: true
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
 require 'anycablebility'
+require 'minitest'
+require 'minitest/spec'
+require 'minitest/autorun'

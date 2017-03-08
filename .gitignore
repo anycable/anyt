@@ -38,3 +38,6 @@ Gemfile.local
 *.gem
 tmp/
 coverage/
+
+# ctags tags
+tags
