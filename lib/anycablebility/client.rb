@@ -12,7 +12,7 @@ module Anycablebility
     attr_reader :state
 
     def initialize(cable_url, debug = false, ignore_message_types = [])
-      @logger = Logger.new(debug ? STDOUT : '/dev/null')
+      @logger = Logger.new(debug ? STDOUT : IO::NULL)
 
       @cable_url = cable_url
       @ignore_message_types = ignore_message_types
