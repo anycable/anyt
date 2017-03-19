@@ -24,7 +24,7 @@ module Anycablebility
 
       run_websocket_client
 
-      Waiter.wait(20) { @state == :welcomed }
+      Waiter.wait(5) { @state == :welcomed }
 
       @logger.debug('connection is established')
     end
