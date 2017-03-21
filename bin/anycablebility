@@ -1,32 +1,47 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require 'docopt'
+require 'optparse'
 require 'anycablebility/version'
 require 'anycablebility/cli/app'
 
-usage = <<~USAGE
-  Anycablebility – AnyCable websocket server conformance tool.
+options = {
+  target: 'ws://0.0.0.0:8080/cable',
+  redis: 'redis://localhost:6379',
+  debug: false
+}
 
-  Usage:
-    anycablebility [--target TARGET_WS_URL] [--redis REDIS_URL] [--debug]
-    anycablebility -h | --help
-    anycablebility --version
+OptionParser.new do |cli|
+  cli.banner = <<~BANNER
+    Anycablebility – AnyCable websocket server conformance tool.
 
-  Options:
-    -h --help               Show this screen.
-    --version               Show version.
-    --target TARGET_WS_URL  URL of target WebSocket server to test [default: ws://0.0.0.0:8080/cable].
-    --redis REDIS_URL       Redis server URL [default: redis://localhost:6379].
-    --debug                 Enable debug mode.
-USAGE
+    Usage: anycablebility [options]
 
-begin
-  args = Docopt::docopt(usage, version: Anycablebility::VERSION)
-rescue Docopt::Exit => e
-  puts e.message
-  exit
-end
+    Options:
+  BANNER
 
-app = Anycablebility::Cli::App.new(args)
+  cli.on('--target TARGET_WS_URL', 'URL of target WebSocket server to test.') do |target|
+    options[:target] = target
+  end
+
+  cli.on('--redis REDIS_URL', 'Redis server URL.') do |redis|
+    options[:redis] = redis
+  end
+
+  cli.on('--debug', 'Enable debug mode.') do
+    options[:debug] = true
+  end
+
+  cli.on('-h', '--help', 'Show this message.') do
+    puts cli
+    exit
+  end
+
+  cli.on('--version', 'Print version.') do
+    puts Anycablebility::VERSION
+    exit
+  end
+end.parse!
+
+app = Anycablebility::Cli::App.new(options)
 app.run

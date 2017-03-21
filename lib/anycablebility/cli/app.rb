@@ -15,7 +15,7 @@ module Anycablebility
       def run
         rpc = Rpc.instance
 
-        rpc.configure(@args['--redis'], @args['--debug'])
+        rpc.configure(@args[:redis], @args[:debug])
 
         rpc.run
 
@@ -23,14 +23,14 @@ module Anycablebility
 
         rpc.stop
       rescue => e
-        rpc.stop if rpc.running?
+        rpc.stop if rpc.running? # prevent segfault from gRPC
         raise e
       end
 
       private
 
       def run_tests
-        client_factory = ClientFactory.new(@args['--target'], @args['--debug'])
+        client_factory = ClientFactory.new(@args[:target], @args[:debug])
         Anycablebility::Tests.define(client_factory)
         MiniTest.run
       end

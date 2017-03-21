@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 5.0.1"
   spec.add_dependency "anycable-rails", "0.4.4"
   spec.add_dependency "websocket-eventmachine-client", "~> 1.2.0"
-  spec.add_dependency "docopt", "~> 0.5.0"
 
   spec.add_development_dependency "bundler", "~> 1"
   spec.add_development_dependency "rake", "~> 10.0"
