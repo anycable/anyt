@@ -30,7 +30,8 @@ module Anycablebility
       private
 
       def run_tests
-        client_factory = ClientFactory.new(@args[:target], @args[:debug])
+        logger = Logger.new(@args[:debug] ? STDOUT : IO::NULL)
+        client_factory = ClientFactory.new(@args[:target], logger)
         Anycablebility::Tests.define(client_factory)
         MiniTest.run
       end

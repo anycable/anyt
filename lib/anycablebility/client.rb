@@ -11,10 +11,9 @@ module Anycablebility
   class Client
     attr_reader :state
 
-    def initialize(cable_url, debug = false, ignore_message_types = [])
-      @logger = Logger.new(debug ? STDOUT : IO::NULL)
-
+    def initialize(cable_url, logger, ignore_message_types = [])
       @cable_url = cable_url
+      @logger = logger
       @ignore_message_types = ignore_message_types
 
       @state = :initial
