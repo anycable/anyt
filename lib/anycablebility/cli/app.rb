@@ -13,9 +13,7 @@ module Anycablebility
         redis: 'redis://localhost:6379',
         debug: false
       )
-        rpc = Rpc.instance
-
-        rpc.configure(redis, debug)
+        rpc = Rpc.instance.configure(redis, debug)
 
         rpc.run
 

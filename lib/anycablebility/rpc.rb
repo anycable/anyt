@@ -22,6 +22,8 @@ module Anycablebility
       @debug = debug
 
       @state = :configured
+
+      self
     end
 
     def run
