@@ -9,11 +9,12 @@ require 'anycablebility/waiter'
 module Anycablebility
   # This is a simple ActionCable client created for testing purposes
   class Client
+    include Logging
+
     attr_reader :state
 
-    def initialize(cable_url, logger, ignore_message_types = [])
+    def initialize(cable_url, ignore_message_types = [])
       @cable_url = cable_url
-      @logger = logger
       @ignore_message_types = ignore_message_types
 
       @state = :initial
@@ -25,16 +26,16 @@ module Anycablebility
 
       Waiter.wait(5) { @state == :welcomed }
 
-      @logger.debug('connection is established')
+      logger.debug('connection is established')
     end
 
     def send(message)
       EventMachine.next_tick do
         @ws.send(message)
-        @logger.debug("message sent: #{message}")
+        logger.debug("message sent: #{message}")
       end
 
-      @logger.debug("message added to the send queue #{message}")
+      logger.debug("message added to the send queue #{message}")
     end
 
     def receive(parsed = false)
@@ -57,12 +58,12 @@ module Anycablebility
           @ws = WebSocket::EventMachine::Client.connect(uri: @cable_url)
 
           @ws.onopen do
-            @logger.debug('connected')
+            logger.debug('connected')
             @state = :connected
           end
 
           @ws.onmessage do |raw_message, type|
-            @logger.debug("new message: #{raw_message}, type: #{type}")
+            logger.debug("new message: #{raw_message}, type: #{type}")
             handle_message(raw_message, type)
           end
 
@@ -78,7 +79,7 @@ module Anycablebility
       parsed_message = parse_message(raw_message)
 
       if welcome_message?(parsed_message)
-        @logger.debug('welcomed')
+        logger.debug('welcomed')
         @state = :welcomed
       end
 

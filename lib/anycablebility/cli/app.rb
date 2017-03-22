@@ -14,14 +14,15 @@ module Anycablebility
         redis: 'redis://localhost:6379',
         debug: false
       )
-        logger = Logger.new(STDOUT)
-        logger.level = debug ? Logger::DEBUG : Logger::WARN
+        Anycablebility.logger = Logger.new(STDOUT).tap do |logger|
+          logger.level = debug ? Logger::DEBUG : Logger::WARN
+        end
 
-        rpc = Rpc.instance.configure(redis, debug, logger)
+        rpc = Rpc.instance.configure(redis)
 
         rpc.run
 
-        result = run_tests(target, debug, logger)
+        result = run_tests(target, debug)
 
         rpc.stop
 
@@ -33,8 +34,8 @@ module Anycablebility
 
       private
 
-      def run_tests(target, debug, logger)
-        client_factory = ClientFactory.new(target, logger)
+      def run_tests(target, debug)
+        client_factory = ClientFactory.new(target)
         Anycablebility::Tests.define(client_factory)
         MiniTest.run
       end
