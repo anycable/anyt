@@ -15,11 +15,12 @@ module Anycablebility
       @state = :initial
     end
 
-    def configure(redis_url, debug)
+    def configure(redis_url, debug, logger)
       raise 'Already configured' if @state != :initial
 
       @redis_url = redis_url
       @debug = debug
+      @logger = logger
 
       @state = :configured
 
@@ -55,6 +56,7 @@ module Anycablebility
     private
 
     def configure_anycable
+      Anycable.logger = @logger
       Anycable.configure do |config|
         config.debug = @debug
         config.redis_url = @redis_url

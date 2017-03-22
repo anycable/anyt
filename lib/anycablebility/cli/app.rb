@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'logger'
 require 'anycablebility/rpc'
 require 'anycablebility/tests'
 require 'anycablebility/client_factory'
@@ -13,11 +14,14 @@ module Anycablebility
         redis: 'redis://localhost:6379',
         debug: false
       )
-        rpc = Rpc.instance.configure(redis, debug)
+        logger = Logger.new(STDOUT)
+        logger.level = debug ? Logger::DEBUG : Logger::WARN
+
+        rpc = Rpc.instance.configure(redis, debug, logger)
 
         rpc.run
 
-        result = run_tests(target, debug)
+        result = run_tests(target, debug, logger)
 
         rpc.stop
 
@@ -29,8 +33,7 @@ module Anycablebility
 
       private
 
-      def run_tests(target, debug)
-        logger = Logger.new(debug ? STDOUT : IO::NULL)
+      def run_tests(target, debug, logger)
         client_factory = ClientFactory.new(target, logger)
         Anycablebility::Tests.define(client_factory)
         MiniTest.run
