@@ -19,9 +19,11 @@ module Anycablebility
 
         rpc.run
 
-        run_tests(target, debug)
+        result = run_tests(target, debug)
 
         rpc.stop
+
+        result ? 0 : 1
       rescue => e
         rpc.stop if rpc.running? # prevent segfault from gRPC
         raise e

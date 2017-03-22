@@ -40,4 +40,13 @@ OptionParser.new do |cli|
 end.parse!
 
 app = Anycablebility::Cli::App.new
-app.run(options)
+
+begin
+  exit_code = app.run(options)
+rescue => e
+  puts 'Bummer! There is an error:'
+  puts e
+  exit 1
+end
+
+exit exit_code
