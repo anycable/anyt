@@ -5,11 +5,7 @@ require 'optparse'
 require 'anycablebility/version'
 require 'anycablebility/cli/app'
 
-options = {
-  target: 'ws://0.0.0.0:8080/cable',
-  redis: 'redis://localhost:6379',
-  debug: false
-}
+options = {}
 
 OptionParser.new do |cli|
   cli.banner = <<~BANNER
@@ -43,5 +39,5 @@ OptionParser.new do |cli|
   end
 end.parse!
 
-app = Anycablebility::Cli::App.new(options)
-app.run
+app = Anycablebility::Cli::App.new
+app.run(options)

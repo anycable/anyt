@@ -8,18 +8,18 @@ module Anycablebility
   module Cli
     # This class is the entry point of Anycablebility
     class App
-      def initialize(args)
-        @args = args
-      end
-
-      def run
+      def run(
+        target: 'ws://0.0.0.0:8080/cable',
+        redis: 'redis://localhost:6379',
+        debug: false
+      )
         rpc = Rpc.instance
 
-        rpc.configure(@args[:redis], @args[:debug])
+        rpc.configure(redis, debug)
 
         rpc.run
 
-        run_tests
+        run_tests(target, debug)
 
         rpc.stop
       rescue => e
@@ -29,9 +29,9 @@ module Anycablebility
 
       private
 
-      def run_tests
-        logger = Logger.new(@args[:debug] ? STDOUT : IO::NULL)
-        client_factory = ClientFactory.new(@args[:target], logger)
+      def run_tests(target, debug)
+        logger = Logger.new(debug ? STDOUT : IO::NULL)
+        client_factory = ClientFactory.new(target, logger)
         Anycablebility::Tests.define(client_factory)
         MiniTest.run
       end
