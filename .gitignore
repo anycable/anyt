@@ -32,9 +32,11 @@ spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal
 spec/dummy/tmp/
 
-Gemfile.lock
 Gemfile.local
 .rspec
 *.gem
 tmp/
 coverage/
+
+# ctags tags
+tags

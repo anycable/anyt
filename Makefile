@@ -1,0 +1,2 @@
+lint:
+	bundler exec rubocop

@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'optparse'
+require 'anycablebility'
+require 'anycablebility/cli/app'
+
+options = {}
+
+OptionParser.new do |cli|
+  cli.banner = <<~BANNER
+    Anycablebility – AnyCable websocket server conformance tool.
+
+    Usage: anycablebility [options]
+
+    Options:
+  BANNER
+
+  cli.on('--target TARGET_WS_URL', 'URL of target WebSocket server to test.') do |target|
+    options[:target] = target
+  end
+
+  cli.on('--redis REDIS_URL', 'Redis server URL.') do |redis|
+    options[:redis] = redis
+  end
+
+  cli.on('--debug', 'Enable debug mode.') do
+    options[:debug] = true
+  end
+
+  cli.on('-h', '--help', 'Show this message.') do
+    puts cli
+    exit
+  end
+
+  cli.on('--version', 'Print version.') do
+    puts Anycablebility::VERSION
+    exit
+  end
+end.parse!
+
+app = Anycablebility::Cli::App.new
+
+begin
+  exit_code = app.run(options)
+rescue => e
+  puts 'Bummer! There is an error:'
+  puts e
+  exit 1
+end
+
+exit exit_code
