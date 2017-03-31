@@ -7,7 +7,7 @@ require 'anycablebility/cli/app'
 
 options = {}
 
-OptionParser.new do |cli|
+option_parser = OptionParser.new do |cli|
   cli.banner = <<~BANNER
     Anycablebility – AnyCable websocket server conformance tool.
 
@@ -37,7 +37,16 @@ OptionParser.new do |cli|
     puts Anycablebility::VERSION
     exit
   end
-end.parse!
+end
+
+begin
+  option_parser.parse!
+rescue OptionParser::InvalidOption => e
+  unknown_option = e.args.first
+  puts "This option looks unfamiliar: #{unknown_option}. A typo?"
+  puts 'Use `anycablebility --help` to list all available options.'
+  exit 1
+end
 
 app = Anycablebility::Cli::App.new
 
