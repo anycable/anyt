@@ -14,6 +14,8 @@ module Anycablebility
       def run
         parse_options!
 
+        ActionCable.server.config.logger = Rails.logger = Anycable.logger
+
         # Start RPC server (unless specified otherwise, e.g. when
         # we want to test Action Cable itself)
         RPC.start unless @skip_rpc
@@ -60,7 +62,7 @@ module Anycablebility
               @skip_rpc = flag
             end
 
-            cli.on("--wait-command", Integer,
+            cli.on("--wait-command=TIMEOUT", Integer,
                    "Number of seconds to wait for WS server initialization") do |timeout|
               Anycablebility.config.wait_command = timeout
             end

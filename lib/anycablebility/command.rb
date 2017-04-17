@@ -22,16 +22,20 @@ module Anycablebility
 
         Process.detach(@pid)
 
-        sleep Anycablebility.config.wait_command
+        Anycable.logger.debug "Command PID: #{@pid}"
 
         @running = true
+
+        sleep Anycablebility.config.wait_command
       end
       # rubocop: enable Metrics/MethodLength
 
       def stop
         return unless @running
 
-        Process.kill("TERM", @pid)
+        Anycable.logger.debug "Terminate PID: #{@pid}"
+
+        Process.kill("SIGKILL", @pid)
 
         @running = false
       end

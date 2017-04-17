@@ -4,12 +4,6 @@ module Anycablebility # :nodoc:
   require "anycablebility/dummy/application"
   require "anycable-rails"
 
-  Anycable.configure do |config|
-    config.connection_factory = ActionCable.server.config.connection_class.call
-  end
-
-  ActionCable.server.config.logger = Rails.logger = Anycable.logger
-
   # Runs AnyCable RPC server in the background
   module RPC
     using AsyncHelpers
@@ -37,6 +31,10 @@ module Anycablebility # :nodoc:
       def running?
         Anycable::Server.grpc_server&.running_state == :running
       end
+    end
+
+    Anycable.configure do |config|
+      config.connection_factory = ActionCable.server.config.connection_class.call
     end
   end
 end
