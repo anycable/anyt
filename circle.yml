@@ -6,3 +6,6 @@ dependencies:
   pre:
     - gem install bundler -v 1.11.2
   
+test:
+  post:
+    make test
