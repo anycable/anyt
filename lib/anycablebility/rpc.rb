@@ -1,70 +1,42 @@
 # frozen_string_literal: true
 
-require 'singleton'
+module Anycablebility # :nodoc:
+  require "anycablebility/dummy/application"
+  require "anycable-rails"
 
-module Anycablebility
-  # RPC server
-  class Rpc
-    include Singleton
+  Anycable.configure do |config|
+    config.connection_factory = ActionCable.server.config.connection_class.call
+  end
 
-    def initialize
-      require 'anycablebility/dummy/application'
-      require 'anycable/rails'
-      require 'anycable-rails'
+  ActionCable.server.config.logger = Rails.logger = Anycable.logger
 
-      @state = :initial
-    end
+  # Runs AnyCable RPC server in the background
+  module RPC
+    using AsyncHelpers
 
-    def configure(redis_url)
-      raise 'Already configured' if @state != :initial
+    class << self
+      attr_accessor :running
 
-      @redis_url = redis_url
+      def start
+        Anycable.logger.debug "Starting RPC server ..."
 
-      @state = :configured
+        @thread = Thread.new { Anycable::Server.start }
+        @thread.abort_on_exception = true
 
-      self
-    end
+        wait(2) { running? }
 
-    def run
-      raise 'Not configured' if @state == :initial
-      raise 'Already running' if @state == :running
-
-      load_dummy
-
-      configure_anycable
-
-      @thread = Thread.new { Anycable::Server.start }
-      @thread.abort_on_exception = true
-
-      @state = :running
-    end
-
-    def stop
-      raise 'Not running' if @state != :running
-
-      Anycable::Server.grpc_server.stop
-
-      @state = :stopped
-    end
-
-    def running?
-      @state == :running
-    end
-
-    private
-
-    def configure_anycable
-      Anycable.logger = Anycablebility.logger
-      Anycable.configure do |config|
-        config.redis_url = @redis_url
-        config.connection_factory = ActionCable.server.config.connection_class.call
+        Anycable.logger.debug "RPC server started"
       end
-    end
 
-    def load_dummy
-      pattern = File.expand_path('dummy/**/*.rb', __dir__)
+      def stop
+        return unless running?
 
-      Dir.glob(pattern).each { |file| require file }
+        Anycable::Server.grpc_server.stop
+      end
+
+      def running?
+        Anycable::Server.grpc_server&.running_state == :running
+      end
     end
   end
 end

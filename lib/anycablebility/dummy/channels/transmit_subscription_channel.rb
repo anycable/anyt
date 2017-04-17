@@ -2,6 +2,6 @@
 
 class TransmitSubscriptionChannel < ApplicationCable::Channel
   def subscribed
-    transmit('hello')
+    transmit("hello")
   end
 end
