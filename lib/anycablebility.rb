@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
-require 'anycablebility/version'
-require 'anycablebility/logging'
+require "anycablebility/version"
+require "anycablebility/config"
+require "anycablebility/utils"
 
 # Anycable conformance testing tool
 module Anycablebility
   class << self
-    attr_accessor :logger
+    def config
+      @config ||= Config.new
+    end
   end
 end

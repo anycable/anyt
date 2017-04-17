@@ -23,13 +23,17 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rack", "~> 2"
   spec.add_dependency "minitest", "~> 5.10.1"
-  spec.add_dependency "rails", "~> 5.0.1"
+  spec.add_dependency "rails", "~> 5.0"
   spec.add_dependency "anycable-rails", "0.4.4"
-  spec.add_dependency "websocket-eventmachine-client", "~> 1.2.0"
+  spec.add_dependency "websocket", "~> 1.2.4"
+  spec.add_dependency "websocket-client-simple", "~> 0.3.0"
+  spec.add_dependency "concurrent-ruby", "~> 1.0.0"
 
   spec.add_development_dependency "bundler", "~> 1"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "simplecov", ">= 0.3.8"
   spec.add_development_dependency "rubocop", "~> 0.47.1"
   spec.add_development_dependency "pry", "~> 0.10.4"
+  spec.add_development_dependency "puma", "~> 3.6"
+  spec.add_development_dependency "pry-byebug"
 end

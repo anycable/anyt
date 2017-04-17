@@ -25,7 +25,12 @@ Style/Documentation:
     - 'spec/**/*.rb'
 
 Style/StringLiterals: 
-  Enabled: false
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Exclude:
+    - 'lib/anycablebility/dummy/**/*'
 
 Style/SpaceInsideStringInterpolation:
   EnforcedStyle: no_space
