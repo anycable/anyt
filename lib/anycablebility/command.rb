@@ -7,6 +7,7 @@ module Anycablebility
       attr_accessor :running
 
       # rubocop: disable Metrics/MethodLength
+      # rubocop: disable Metrics/AbcSize
       def run
         return if @running
 
@@ -29,6 +30,7 @@ module Anycablebility
         sleep Anycablebility.config.wait_command
       end
       # rubocop: enable Metrics/MethodLength
+      # rubocop: enable Metrics/AbcSize
 
       def stop
         return unless @running

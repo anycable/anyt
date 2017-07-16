@@ -5,6 +5,13 @@ require "action_cable"
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    def connect
+      logger.info "Connected"
+    end
+
+    def disconnect
+      logger.info "Disconnected"
+    end
   end
 end
 
@@ -19,4 +26,5 @@ Dir.glob(pattern).each { |file| require file }
 
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
-ActionCable.server.config.logger = Rails.logger = Logger.new(STDOUT)
+ActionCable.server.config.logger =
+  Rails.logger = Logger.new(STDOUT).tap { |l| l.level = Logger::DEBUG }

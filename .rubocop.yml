@@ -10,6 +10,9 @@ AllCops:
     - 'tmp/**/*'
     - 'bench/**/*'
     - 'lib/anycable/rpc/**/*'
+    - '*.gemspec'
+    - 'Rakefile'
+    - 'Gemfile'
   DisplayCopNames: true
   StyleGuideCopsOnly: false
   TargetRubyVersion: 2.3

@@ -7,6 +7,9 @@ require "anycablebility/rpc"
 require "anycablebility/command"
 require "anycablebility/tests"
 
+# rubocop: disable Metrics/AbcSize
+# rubocop: disable Metrics/MethodLength
+# rubocop: disable Metrics/BlockLength
 module Anycablebility
   module Cli # :nodoc:
     class << self
@@ -16,25 +19,30 @@ module Anycablebility
 
         ActionCable.server.config.logger = Rails.logger = Anycable.logger
 
-        # Start RPC server (unless specified otherwise, e.g. when
-        # we want to test Action Cable itself)
-        RPC.start unless @skip_rpc
+        result = 1
 
-        # Start webosocket server under test
-        Command.run
+        begin
+          # Load all test scenarios
+          Tests.load_tests
+          # Start RPC server (unless specified otherwise, e.g. when
+          # we want to test Action Cable itself)
+          RPC.start unless @skip_rpc
 
-        # Run tests
-        Tests.run ? 0 : 1
-      ensure
-        RPC.stop unless @skip_rpc
-        Command.stop
+          # Start webosocket server under test
+          Command.run
+
+          # Run tests
+          result = Tests.run ? 0 : 1
+        ensure
+          RPC.stop unless @skip_rpc
+          Command.stop
+        end
+
+        result
       end
 
       private
 
-      # rubocop: disable Metrics/AbcSize
-      # rubocop: disable Metrics/MethodLength
-      # rubocop: disable Metrics/BlockLength
       def parse_options!
         parser =
           OptionParser.new do |cli|
@@ -60,6 +68,15 @@ module Anycablebility
 
             cli.on("--skip-rpc", TrueClass, "Do not run RPC server") do |flag|
               @skip_rpc = flag
+            end
+
+            cli.on("--self-check", "Run tests again Action Cable itself") do
+              @skip_rpc = true
+              dummy_path = ::File.expand_path(
+                "config.ru",
+                ::File.join(::File.dirname(__FILE__), "dummy")
+              )
+              Anycablebility.config.command = "bundle exec puma #{dummy_path}"
             end
 
             cli.on("--wait-command=TIMEOUT", Integer,
@@ -89,9 +106,6 @@ module Anycablebility
         puts "Use `anycablebility --help` to list all available options."
         exit 1
       end
-      # rubocop: enable Metrics/AbcSize
-      # rubocop: enable Metrics/MethodLength
-      # rubocop: enable Metrics/BlockLength
     end
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 describe "Welcome message" do
   it "receives welcome on connect" do
     client = Client.new

@@ -1,9 +1,10 @@
 # coding: utf-8
+# frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'anycablebility/version'
+require "anycablebility/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "anycablebility"
@@ -11,18 +12,19 @@ Gem::Specification.new do |spec|
   spec.authors       = ["palkan"]
   spec.email         = ["dementiev.vm@gmail.com"]
 
-  spec.summary       = %q{Anycable conformance testing tool}
-  spec.description   = %q{Anycable conformance testing tool}
+  spec.summary       = "Anycable conformance testing tool"
+  spec.description   = "Anycable conformance testing tool"
   spec.homepage      = "http://github.com/anycable/anycablebility"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ["lib"]
 
-  spec.executables << 'anycablebility'
+  spec.executables << "anycablebility"
 
   spec.add_dependency "rack", "~> 2"
   spec.add_dependency "minitest", "~> 5.10.1"
+  spec.add_dependency "minitest-reporters", "~> 1.1.0"
   spec.add_dependency "rails", "~> 5.0"
   spec.add_dependency "anycable-rails", "0.4.4"
   spec.add_dependency "websocket", "~> 1.2.4"

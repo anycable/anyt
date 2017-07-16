@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 describe "Ping message" do
   it "receives pings timestamps after connect" do
     client = Client.new(ignore: ["welcome"])

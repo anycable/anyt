@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 describe "Basic subscription" do
   before do
-    @client = Client.new(ignore: %w(ping welcome))
+    @client = Client.new(ignore: %w[ping welcome])
   end
 
   it "receives confirmation" do
