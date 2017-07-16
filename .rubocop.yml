@@ -8,6 +8,7 @@ AllCops:
     - 'bin/**/*'
     - 'spec/dummy/**/*'
     - 'tmp/**/*'
+    - 'vendor/**/*'
     - 'bench/**/*'
     - 'lib/anycable/rpc/**/*'
     - '*.gemspec'
@@ -16,6 +17,9 @@ AllCops:
   DisplayCopNames: true
   StyleGuideCopsOnly: false
   TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: false
 
 Style/AccessorMethodName:
   Enabled: false
@@ -26,17 +30,12 @@ Style/TrivialAccessors:
 Style/Documentation:
   Exclude:
     - 'spec/**/*.rb'
+    - 'lib/**/*_test.rb'
+    - 'lib/anycablebility/dummy/**/*'
 
 Style/StringLiterals: 
   Enabled: true
   EnforcedStyle: double_quotes
-
-Style/Documentation:
-  Exclude:
-    - 'lib/anycablebility/dummy/**/*'
-
-Style/SpaceInsideStringInterpolation:
-  EnforcedStyle: no_space
 
 Style/BlockDelimiters:
   Exclude:
@@ -53,9 +52,3 @@ Metrics/LineLength:
   Max: 100
   Exclude:
     - 'spec/**/*.rb'
-
-Rails/Date:
-  Enabled: false
-
-Rails/TimeZone:
-  Enabled: false

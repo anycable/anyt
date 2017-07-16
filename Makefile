@@ -1,5 +1,5 @@
 lint:
-	bundler exec rubocop
+	bundle exec rubocop
 
 test:
 	bin/anycablebility --self-check
