@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
-describe "Basic subscription" do
+class SimpleSubscribeTestChannel < ApplicationCable::Channel
+end
+
+class TransmitOnSubscribeTestChannel < ApplicationCable::Channel
+  def subscribed
+    transmit("hello")
+    transmit("world")
+  end
+end
+
+describe "#subscribe" do
   before do
     @client = Client.new(ignore: %w[ping welcome])
   end
 
   it "receives confirmation" do
-    channel = "JustChannel"
+    channel = "SimpleSubscribeTestChannel"
 
     subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
 
@@ -19,14 +29,18 @@ describe "Basic subscription" do
     assert_equal subscription_confirmation, @client.receive
   end
 
-  it "receives transmission" do
-    channel = "TransmitSubscriptionChannel"
+  it "receives transmissions" do
+    channel = "TransmitOnSubscribeTestChannel"
 
     subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
 
     @client.send(subscribe_request)
 
     transmission = { "identifier" => { channel: channel }.to_json, "message" => "hello" }
+
+    assert_equal transmission, @client.receive
+
+    transmission = { "identifier" => { channel: channel }.to_json, "message" => "world" }
 
     assert_equal transmission, @client.receive
 

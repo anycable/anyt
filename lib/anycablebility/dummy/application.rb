@@ -20,10 +20,6 @@ module ApplicationCable
   end
 end
 
-pattern = File.expand_path("channels/**/*.rb", __dir__)
-
-Dir.glob(pattern).each { |file| require file }
-
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
 ActionCable.server.config.logger =

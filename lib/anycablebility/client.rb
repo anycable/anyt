@@ -6,7 +6,7 @@ class Client
   require "websocket-client-simple"
   require "concurrent"
 
-  WAIT_WHEN_EXPECTING_EVENT = 15
+  WAIT_WHEN_EXPECTING_EVENT = 5
   WAIT_WHEN_NOT_EXPECTING_EVENT = 0.5
 
   # rubocop: disable Metrics/AbcSize

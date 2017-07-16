@@ -5,7 +5,6 @@ module Anycablebility
   module Tests
     require "anycablebility/client"
     require "minitest/spec"
-    require "minitest/hell"
     require "minitest/reporters"
 
     class << self
