@@ -35,7 +35,7 @@ end
 module Minitest::Spec::DSL
   # Simplified version of `it` which doesn't care
   # about unique method names
-  def scenario desc, &block
+  def scenario(desc, &block)
     block ||= proc { skip "(no tests defined)" }
 
     define_method "test_ #{desc}", &block
@@ -62,8 +62,7 @@ end
 
 # Patch Spec reporter
 module Anycablebility
-  module ReporterPatch
-
+  module ReporterPatch # :nodoc:
     def record_print_status(test)
       test_name = test.name.gsub(/^test_/, '').strip
       print pad_test(test_name)

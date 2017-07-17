@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Synchronous websocket client
-# Based on https://github.com/rails/rails/blob/v5.0.1/actioncable/test/client_test.rb
 module Anycablebility
+  # Synchronous websocket client
+  # Based on https://github.com/rails/rails/blob/v5.0.1/actioncable/test/client_test.rb
   class Client
     require "websocket-client-simple"
     require "concurrent"

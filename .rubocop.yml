@@ -34,12 +34,20 @@ Style/Documentation:
     - 'lib/anycablebility/dummy/**/*'
 
 Style/StringLiterals: 
-  Enabled: true
-  EnforcedStyle: double_quotes
+  Enabled: false
 
 Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*.rb'
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
 
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
@@ -47,6 +55,12 @@ Lint/AmbiguousRegexpLiteral:
 Metrics/MethodLength:
   Exclude:
     - 'spec/**/*.rb'
+    - 'lib/**/*_test.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'lib/**/*_test.rb'
 
 Metrics/LineLength:
   Max: 100
