@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-feature "Connection" do
+feature "Welcome" do
   scenario %{
     Client receives "welcome" message
   } do

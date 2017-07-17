@@ -16,6 +16,11 @@ module Anycablebility
   end
 end
 
+module Anycablebility
+  # Namespace for test channels
+  module TestChannels; end
+end
+
 # Kernel extensions
 module Kernel
   ## Wraps `describe` and include shared helpers
@@ -36,6 +41,22 @@ module Minitest::Spec::DSL
     define_method "test_ #{desc}", &block
 
     desc
+  end
+
+  # Generates Channel class dynamically and
+  # add memoized helper to access its name
+  def channel(id = nil, &block)
+    class_name = @name.gsub(/\s+/, '_')
+    class_name += "_#{id}" if id
+    class_name += "_channel"
+
+    cls = Class.new(ApplicationCable::Channel, &block)
+
+    Anycablebility::TestChannels.const_set(class_name.classify, cls)
+
+    helper_name = id ? "#{id}_channel" : "channel"
+
+    let(helper_name) { cls.name }
   end
 end
 
