@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-describe "Ping message" do
-  it "receives pings timestamps after connect" do
-    client = Client.new(ignore: ["welcome"])
+feature "Ping" do
+  scenario %{
+    Client receives pings with timestamps
+  } do
+    client = build_client(ignore: ["welcome"])
 
     previous_stamp = 0
 

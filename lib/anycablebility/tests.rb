@@ -4,8 +4,7 @@ module Anycablebility
   # Loads and runs test cases
   module Tests
     require "anycablebility/client"
-    require "minitest/spec"
-    require "minitest/reporters"
+    require_relative "ext/minitest"
 
     class << self
       # Run all loaded tests
