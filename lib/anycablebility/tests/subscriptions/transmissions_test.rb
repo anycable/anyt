@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-feature "Subscriptions transmissions" do
+feature "Subscription transmissions" do
   channel do
     def subscribed
       transmit("hello")

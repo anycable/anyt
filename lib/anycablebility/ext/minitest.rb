@@ -43,11 +43,6 @@ module Minitest::Spec::DSL
     desc
   end
 
-  # DSL-ize setup method
-  def before(&block)
-    define_method "setup", &block
-  end
-
   # Generates Channel class dynamically and
   # add memoized helper to access its name
   def channel(id = nil, &block)
