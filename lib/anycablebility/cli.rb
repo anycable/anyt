@@ -27,7 +27,10 @@ module Anycablebility
 
           # Start RPC server (unless specified otherwise, e.g. when
           # we want to test Action Cable itself)
-          RPC.start unless @skip_rpc
+          unless @skip_rpc
+            require "anycable-rails"
+            RPC.start
+          end
 
           # Start webosocket server under test
           Command.run

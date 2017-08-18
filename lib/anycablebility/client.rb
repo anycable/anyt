@@ -65,9 +65,9 @@ module Anycablebility
     # rubocop: enable Metrics/AbcSize
     # rubocop: enable Metrics/MethodLength
 
-    def receive
+    def receive(timeout: WAIT_WHEN_EXPECTING_EVENT)
       raise TimeoutError, "Timed out to receive message" unless
-        @has_messages.try_acquire(1, WAIT_WHEN_EXPECTING_EVENT)
+        @has_messages.try_acquire(1, timeout)
 
       msg = @messages.pop(true)
       raise msg if msg.is_a?(Exception)

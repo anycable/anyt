@@ -2,7 +2,7 @@
 
 module Anycablebility # :nodoc:
   require "anycablebility/dummy/application"
-  require "anycable-rails"
+  require "anycable"
 
   # Runs AnyCable RPC server in the background
   module RPC
