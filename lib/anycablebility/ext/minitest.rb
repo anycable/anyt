@@ -60,8 +60,17 @@ module Minitest::Spec::DSL
   end
 end
 
-# Patch Spec reporter
 module Anycablebility
+  # Patch Minitest load_plugins to disable Rails plugin
+  # See: https://github.com/kern/minitest-reporters/issues/230
+  module MinitestPatch
+    def load_plugins
+      super
+      extensions.delete('rails')
+    end
+  end
+
+  # Patch Spec reporter
   module ReporterPatch # :nodoc:
     def record_print_status(test)
       test_name = test.name.gsub(/^test_/, '').strip
@@ -74,3 +83,4 @@ module Anycablebility
 end
 
 Minitest::Reporters::SpecReporter.prepend Anycablebility::ReporterPatch
+Minitest.singleton_class.prepend Anycablebility::MinitestPatch

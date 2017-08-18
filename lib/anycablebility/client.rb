@@ -7,6 +7,8 @@ module Anycablebility
     require "websocket-client-simple"
     require "concurrent"
 
+    class TimeoutError < StandardError; end
+
     WAIT_WHEN_EXPECTING_EVENT = 5
     WAIT_WHEN_NOT_EXPECTING_EVENT = 0.5
 
@@ -64,7 +66,7 @@ module Anycablebility
     # rubocop: enable Metrics/MethodLength
 
     def receive
-      raise "Timed out to receive message" unless
+      raise TimeoutError, "Timed out to receive message" unless
         @has_messages.try_acquire(1, WAIT_WHEN_EXPECTING_EVENT)
 
       msg = @messages.pop(true)
