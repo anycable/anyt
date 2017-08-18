@@ -80,6 +80,10 @@ module Anycablebility
               Anycablebility.config.command = "bundle exec puma #{dummy_path}"
             end
 
+            cli.on("--only test1,test2,test3", Array, "Run only specified tests") do |only_tests|
+              Anycablebility.config.only_tests = only_tests
+            end
+
             cli.on("--wait-command=TIMEOUT", Integer,
                    "Number of seconds to wait for WS server initialization") do |timeout|
               Anycablebility.config.wait_command = timeout

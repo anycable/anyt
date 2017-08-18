@@ -12,14 +12,34 @@ module Anycablebility
         Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
         Anycable.logger.debug "Run tests against: #{Anycablebility.config.target_url}"
-        MiniTest.run
+        Minitest.run
       end
 
-      # Load all tests code
+      # Load tests code (filtered if present)
       #
       # NOTE: We should run this before launching RPC server
       def load_tests
+        return load_all_tests unless Anycablebility.config.filter_tests?
+
         pattern = File.expand_path("tests/**/*.rb", __dir__)
+        skipped = []
+        filter = Anycablebility.config.tests_filter
+
+        Dir.glob(pattern).each do |file|
+          if file =~ filter
+            require file
+          else
+            skipped << file.gsub(File.join(__dir__, 'tests/'), '').gsub('_test.rb', '')
+          end
+        end
+
+        $stdout.print "Skipping tests: #{skipped.join(', ')}\n"
+      end
+
+      # Load all test files
+      def load_all_tests
+        pattern = File.expand_path("tests/**/*.rb", __dir__)
+
         Dir.glob(pattern).each { |file| require file }
       end
     end
