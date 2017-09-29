@@ -18,6 +18,9 @@ module Anycablebility
       # Load tests code (filtered if present)
       #
       # NOTE: We should run this before launching RPC server
+
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
       def load_tests
         return load_all_tests unless Anycablebility.config.filter_tests?
 
@@ -26,7 +29,7 @@ module Anycablebility
         filter = Anycablebility.config.tests_filter
 
         Dir.glob(pattern).each do |file|
-          if file =~ filter
+          if file.match?(filter)
             require file
           else
             skipped << file.gsub(File.join(__dir__, 'tests/'), '').gsub('_test.rb', '')

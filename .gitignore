@@ -33,6 +33,7 @@ spec/dummy/db/*.sqlite3-journal
 spec/dummy/tmp/
 
 Gemfile.local
+Gemfile.lock
 .rspec
 *.gem
 tmp/

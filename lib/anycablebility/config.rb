@@ -16,7 +16,7 @@ module Anycablebility
 
     def tests_filter
       @tests_filter ||= begin
-        %r{(#{only_tests.join('|')})}
+        /(#{only_tests.join('|')})/
       end
     end
   end
