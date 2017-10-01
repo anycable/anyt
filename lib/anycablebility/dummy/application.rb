@@ -2,11 +2,15 @@
 
 require "rails"
 require "action_cable"
+require "action_dispatch/middleware/cookies"
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    delegate :params, to: :request
+
     def connect
       logger.info "Connected"
+      Anycablebility::ConnectHandlers.call(self)
     end
 
     def disconnect

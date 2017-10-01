@@ -19,6 +19,34 @@ end
 module Anycablebility
   # Namespace for test channels
   module TestChannels; end
+
+  # Custom #connect handlers management
+  module ConnectHandlers
+    class << self
+      def call(connection)
+        handlers_for(connection).each do |(_, handler)|
+          connection.reject_unauthorized_connection unless
+            connection.instance_eval(&handler)
+        end
+      end
+
+      def add(tag, &block)
+        handlers << [tag, block]
+      end
+
+      private
+
+      def handlers_for(connection)
+        handlers.select do |(tag, _)|
+          connection.params['test'] == tag
+        end
+      end
+
+      def handlers
+        @handlers ||= []
+      end
+    end
+  end
 end
 
 # Kernel extensions
@@ -57,6 +85,11 @@ module Minitest::Spec::DSL
     helper_name = id ? "#{id}_channel" : "channel"
 
     let(helper_name) { cls.name }
+  end
+
+  # Add new #connect handler
+  def connect_handler(tag, &block)
+    Anycablebility::ConnectHandlers.add(tag, &block)
   end
 end
 

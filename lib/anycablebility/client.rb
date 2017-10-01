@@ -14,19 +14,22 @@ module Anycablebility
 
     # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/MethodLength
-    def initialize(ignore: [], url: Anycablebility.config.target_url, cookies: "")
+    def initialize(
+      ignore: [], url: Anycablebility.config.target_url, qs: "",
+      cookies: "", headers: {}
+    )
       ignore_message_types = @ignore_message_types = ignore
       messages = @messages = Queue.new
       closed = @closed = Concurrent::Event.new
       has_messages = @has_messages = Concurrent::Semaphore.new(0)
 
+      headers = headers.merge('cookie' => cookies)
+
       open = Concurrent::Promise.new
 
       @ws = WebSocket::Client::Simple.connect(
-        url,
-        headers: {
-          "COOKIE" => cookies
-        }
+        url + "?#{qs}",
+        headers: headers
       ) do |ws|
         ws.on(:error) do |event|
           event = RuntimeError.new(event.message) unless event.is_a?(Exception)
