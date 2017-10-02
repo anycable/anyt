@@ -1,4 +1,4 @@
-[![Circle CI](https://circleci.com/gh/anycable/anycablebility/tree/master.svg?style=svg)](https://circleci.com/gh/anycable/anycablebility/tree/master)<a href="https://gitter.im/anycable/anycablebility"><img src="https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg" alt="Gitter"></a>
+[![Circle CI](https://circleci.com/gh/anycable/anycablebility/tree/master.svg?style=svg)](https://circleci.com/gh/anycable/anycablebility/tree/master) [![Gitter](https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/anycable/anycablebility)
 
 # Anycable Conformance Testing Tool
 
