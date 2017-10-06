@@ -2,8 +2,8 @@
 
 require "anyway"
 
-module Anycablebility
-  # Anycablebility configuration
+module Anyt
+  # Anyt configuration
   class Config < Anyway::Config
     attr_config :command,
                 :only_tests,

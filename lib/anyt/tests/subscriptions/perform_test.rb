@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "anycablebility/utils"
-using Anycablebility::AsyncHelpers
+require "anyt/utils"
+using Anyt::AsyncHelpers
 
 feature "Subscription perform methods" do
   channel do

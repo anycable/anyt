@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "anycablebility/version"
-require "anycablebility/config"
-require "anycablebility/utils"
+require "anyt/version"
+require "anyt/config"
+require "anyt/utils"
 
 # Anycable conformance testing tool
-module Anycablebility
+module Anyt
   class << self
     def config
       @config ||= Config.new

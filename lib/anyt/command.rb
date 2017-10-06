@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Anycablebility
+module Anyt
   # Runs system command (websocket server)
   module Command
     class << self
@@ -11,12 +11,12 @@ module Anycablebility
       def run
         return if @running
 
-        Anycable.logger.debug "Running command: #{Anycablebility.config.command}"
+        Anycable.logger.debug "Running command: #{Anyt.config.command}"
 
         out = Anycable.config.debug ? STDOUT : IO::NULL
 
         @pid = Process.spawn(
-          Anycablebility.config.command,
+          Anyt.config.command,
           out: out,
           err: out
         )
@@ -27,7 +27,7 @@ module Anycablebility
 
         @running = true
 
-        sleep Anycablebility.config.wait_command
+        sleep Anyt.config.wait_command
       end
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize

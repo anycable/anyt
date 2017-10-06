@@ -3,14 +3,14 @@
 require "logger"
 require "optparse"
 
-require "anycablebility/rpc"
-require "anycablebility/command"
-require "anycablebility/tests"
+require "anyt/rpc"
+require "anyt/command"
+require "anyt/tests"
 
 # rubocop: disable Metrics/AbcSize
 # rubocop: disable Metrics/MethodLength
 # rubocop: disable Metrics/BlockLength
-module Anycablebility
+module Anyt
   module Cli # :nodoc:
     class << self
       # CLI entrypoint
@@ -51,19 +51,19 @@ module Anycablebility
         parser =
           OptionParser.new do |cli|
             cli.banner = <<~BANNER
-              Anycablebility – AnyCable websocket server conformance tool.
+              Anyt – AnyCable websocket server conformance tool.
 
-              Usage: anycablebility [options]
+              Usage: anyt [options]
 
               Options:
             BANNER
 
             cli.on("-cCOMMAND", "--command=COMMAND", "Command to run WS server.") do |command|
-              Anycablebility.config.command = command
+              Anyt.config.command = command
             end
 
             cli.on("--target-url=TARGET", "URL of target WebSocket server to test.") do |target|
-              Anycablebility.config.target_url = target
+              Anyt.config.target_url = target
             end
 
             cli.on("--redis-url=REDIS_URL", "Redis server URL.") do |redis|
@@ -80,16 +80,16 @@ module Anycablebility
                 "config.ru",
                 ::File.join(::File.dirname(__FILE__), "dummy")
               )
-              Anycablebility.config.command = "bundle exec puma #{dummy_path}"
+              Anyt.config.command = "bundle exec puma #{dummy_path}"
             end
 
             cli.on("--only test1,test2,test3", Array, "Run only specified tests") do |only_tests|
-              Anycablebility.config.only_tests = only_tests
+              Anyt.config.only_tests = only_tests
             end
 
             cli.on("--wait-command=TIMEOUT", Integer,
                    "Number of seconds to wait for WS server initialization") do |timeout|
-              Anycablebility.config.wait_command = timeout
+              Anyt.config.wait_command = timeout
             end
 
             cli.on("--debug", "Enable debug mode.") do
@@ -102,7 +102,7 @@ module Anycablebility
             end
 
             cli.on("--version", "Print version.") do
-              puts Anycablebility::VERSION
+              puts Anyt::VERSION
               exit
             end
           end
@@ -111,7 +111,7 @@ module Anycablebility
       rescue OptionParser::InvalidOption => e
         unknown_option = e.args.first
         puts "This option looks unfamiliar: #{unknown_option}. A typo?"
-        puts "Use `anycablebility --help` to list all available options."
+        puts "Use `anyt --help` to list all available options."
         exit 1
       end
     end

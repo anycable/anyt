@@ -4,23 +4,23 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require "anycablebility/version"
+require "anyt/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "anycablebility"
-  spec.version       = Anycablebility::VERSION
+  spec.name          = "anyt"
+  spec.version       = Anyt::VERSION
   spec.authors       = ["palkan"]
   spec.email         = ["dementiev.vm@gmail.com"]
 
   spec.summary       = "Anycable conformance testing tool"
   spec.description   = "Anycable conformance testing tool"
-  spec.homepage      = "http://github.com/anycable/anycablebility"
+  spec.homepage      = "http://github.com/anycable/anyt"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ["lib"]
 
-  spec.executables << "anycablebility"
+  spec.executables << "anyt"
 
   spec.add_dependency "rack", "~> 2"
   spec.add_dependency "minitest", "~> 5.10.1"

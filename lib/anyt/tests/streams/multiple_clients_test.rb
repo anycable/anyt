@@ -56,6 +56,6 @@ feature "Streams with many clients" do
     msg2 = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "Y" } }
 
     assert_equal msg2, client2.receive
-    assert_raises(Anycablebility::Client::TimeoutError) { client.receive(timeout: 0.5) }
+    assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
   end
 end

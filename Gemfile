@@ -2,5 +2,5 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in anycablebility.gemspec
+# Specify your gem's dependencies in anyt.gemspec
 gemspec

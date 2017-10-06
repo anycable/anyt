@@ -2,13 +2,13 @@
 
 # Anycable Conformance Testing Tool
 
-Anycablebility is a command-line tool to test your [AnyCable](http://anycable.io)-compatible WebSocket servers.
+AnyT is a command-line tool to test your [AnyCable](http://anycable.io)-compatible WebSocket servers.
 It contains a set of tests to determine which features are supported by the implementation under consideration.
 
 ## Installation
 
 ```sh
-gem install anycablebility
+gem install anyt
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ gem install anycablebility
 You should provide a command to run the server and the target URL for WebSocket clients:
 
 ```sh
-anycablebility -c "anycable-go" --target-url="ws://localhost:8080/cable"
+anyt -c "anycable-go" --target-url="ws://localhost:8080/cable"
 ```
 
 By default it launches gRPC server on `localhost:50051` and use local Redis instance for broadcasts (`localhost:6379`).
@@ -24,12 +24,12 @@ By default it launches gRPC server on `localhost:50051` and use local Redis inst
 For more options run:
 
 ```sh
-anycablebility -h
+anyt -h
 ```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/anycable/anycablebility/issues.
+Bug reports and pull requests are welcome on GitHub at https://github.com/anycable/anyt/issues.
 
 ## License
 The library is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

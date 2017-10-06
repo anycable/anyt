@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Anycablebility
+module Anyt
   module AsyncHelpers # :nodoc:
     refine Object do
       # Wait for block to return true of raise error

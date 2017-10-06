@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Anycablebility # :nodoc:
-  require "anycablebility/dummy/application"
+module Anyt # :nodoc:
+  require "anyt/dummy/application"
   require "anycable"
 
   # Runs AnyCable RPC server in the background

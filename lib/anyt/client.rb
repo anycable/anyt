@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Anycablebility
+module Anyt
   # Synchronous websocket client
   # Based on https://github.com/rails/rails/blob/v5.0.1/actioncable/test/client_test.rb
   class Client
@@ -15,7 +15,7 @@ module Anycablebility
     # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/MethodLength
     def initialize(
-      ignore: [], url: Anycablebility.config.target_url, qs: "",
+      ignore: [], url: Anyt.config.target_url, qs: "",
       cookies: "", headers: {}
     )
       ignore_message_types = @ignore_message_types = ignore

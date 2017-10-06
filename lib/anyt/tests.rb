@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module Anycablebility
+module Anyt
   # Loads and runs test cases
   module Tests
-    require "anycablebility/client"
+    require "anyt/client"
     require_relative "ext/minitest"
 
     class << self
@@ -11,7 +11,7 @@ module Anycablebility
       def run
         Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-        Anycable.logger.debug "Run tests against: #{Anycablebility.config.target_url}"
+        Anycable.logger.debug "Run tests against: #{Anyt.config.target_url}"
         Minitest.run
       end
 
@@ -22,11 +22,11 @@ module Anycablebility
       # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/MethodLength
       def load_tests
-        return load_all_tests unless Anycablebility.config.filter_tests?
+        return load_all_tests unless Anyt.config.filter_tests?
 
         pattern = File.expand_path("tests/**/*.rb", __dir__)
         skipped = []
-        filter = Anycablebility.config.tests_filter
+        filter = Anyt.config.tests_filter
 
         Dir.glob(pattern).each do |file|
           if file.match?(filter)

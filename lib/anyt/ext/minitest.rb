@@ -3,7 +3,7 @@
 require "minitest/spec"
 require "minitest/reporters"
 
-module Anycablebility
+module Anyt
   # Common tests helpers
   module TestHelpers
     def self.included(base)
@@ -11,12 +11,12 @@ module Anycablebility
     end
 
     def build_client(*args)
-      Anycablebility::Client.new(*args)
+      Anyt::Client.new(*args)
     end
   end
 end
 
-module Anycablebility
+module Anyt
   # Namespace for test channels
   module TestChannels; end
 
@@ -54,7 +54,7 @@ module Kernel
   ## Wraps `describe` and include shared helpers
   private def feature(*args, &block)
     cls = describe(*args, &block)
-    cls.include Anycablebility::TestHelpers
+    cls.include Anyt::TestHelpers
     cls
   end
 end
@@ -80,7 +80,7 @@ module Minitest::Spec::DSL
 
     cls = Class.new(ApplicationCable::Channel, &block)
 
-    Anycablebility::TestChannels.const_set(class_name.classify, cls)
+    Anyt::TestChannels.const_set(class_name.classify, cls)
 
     helper_name = id ? "#{id}_channel" : "channel"
 
@@ -89,11 +89,11 @@ module Minitest::Spec::DSL
 
   # Add new #connect handler
   def connect_handler(tag, &block)
-    Anycablebility::ConnectHandlers.add(tag, &block)
+    Anyt::ConnectHandlers.add(tag, &block)
   end
 end
 
-module Anycablebility
+module Anyt
   # Patch Minitest load_plugins to disable Rails plugin
   # See: https://github.com/kern/minitest-reporters/issues/230
   module MinitestPatch
@@ -115,5 +115,5 @@ module Anycablebility
   end
 end
 
-Minitest::Reporters::SpecReporter.prepend Anycablebility::ReporterPatch
-Minitest.singleton_class.prepend Anycablebility::MinitestPatch
+Minitest::Reporters::SpecReporter.prepend Anyt::ReporterPatch
+Minitest.singleton_class.prepend Anyt::MinitestPatch

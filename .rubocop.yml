@@ -31,7 +31,7 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*.rb'
     - 'lib/**/*_test.rb'
-    - 'lib/anycablebility/dummy/**/*'
+    - 'lib/anyt/dummy/**/*'
 
 Style/StringLiterals: 
   Enabled: false

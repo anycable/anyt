@@ -10,7 +10,7 @@ module ApplicationCable
 
     def connect
       logger.info "Connected"
-      Anycablebility::ConnectHandlers.call(self)
+      Anyt::ConnectHandlers.call(self)
     end
 
     def disconnect
