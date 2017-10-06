@@ -2,6 +2,7 @@
 
 require "rails"
 require "action_cable"
+require "redis"
 require "action_dispatch/middleware/cookies"
 
 module ApplicationCable

@@ -17,24 +17,19 @@ module Anyt # :nodoc:
         @thread = Thread.new { Anycable::Server.start }
         @thread.abort_on_exception = true
 
-        wait(2) { running? }
+        wait(2) { Anycable::Server.running? }
 
         Anycable.logger.debug "RPC server started"
       end
 
       def stop
-        return unless running?
+        return unless Anycable::Server.running?
 
         Anycable::Server.grpc_server.stop
       end
-
-      def running?
-        Anycable::Server.grpc_server&.running_state == :running
-      end
     end
 
-    Anycable.configure do |config|
-      config.connection_factory = ActionCable.server.config.connection_class.call
-    end
+    Anycable.connection_factory = ActionCable.server.config.connection_class.call
+    Anycable.logger = Logger.new(IO::NULL) unless Anycable.config.debug
   end
 end
