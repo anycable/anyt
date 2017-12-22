@@ -21,6 +21,9 @@ AllCops:
 Rails:
   Enabled: false
 
+Lint/MissingCopEnableDirective:
+  Enabled: false
+
 Style/AccessorMethodName:
   Enabled: false
 
