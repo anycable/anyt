@@ -24,6 +24,12 @@ Rails:
 Lint/MissingCopEnableDirective:
   Enabled: false
 
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
 Style/AccessorMethodName:
   Enabled: false
 
