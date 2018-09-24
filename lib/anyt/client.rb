@@ -53,6 +53,9 @@ module Anyt
             message = JSON.parse(event.data)
 
             next if ignore_message_types.include?(message["type"])
+
+            Anycable.logger.debug "Message received: #{message}"
+
             messages << message
             has_messages.release
           end
