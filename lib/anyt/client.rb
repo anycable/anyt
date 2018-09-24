@@ -14,6 +14,7 @@ module Anyt
 
     # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/MethodLength
+    # rubocop: disable Metrics/BlockLength
     def initialize(
       ignore: [], url: Anyt.config.target_url, qs: "",
       cookies: "", headers: {}
@@ -68,6 +69,7 @@ module Anyt
 
       open.wait!(WAIT_WHEN_EXPECTING_EVENT)
     end
+    # rubocop: enable Metrics/BlockLength
     # rubocop: enable Metrics/AbcSize
     # rubocop: enable Metrics/MethodLength
 
