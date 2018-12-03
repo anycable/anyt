@@ -21,7 +21,7 @@ module Anyt
         ActionCable.server.config.logger = Rails.logger = AnyCable.logger
 
         result = 1
-        
+
         $stdout.puts "Starting AnyT v#{Anyt::VERSION} (pid: #{Process.pid})\n"
 
         begin
