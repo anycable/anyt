@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-module Anyt # :nodoc:
-  require "anyt/dummy/application"
-  require "anycable"
+require "anyt/dummy/application"
+require "anycable-rails"
+require "redis"
 
+module Anyt # :nodoc:
   # Runs AnyCable RPC server in the background
   module RPC
     using AsyncHelpers
@@ -11,21 +12,31 @@ module Anyt # :nodoc:
     class << self
       attr_accessor :running
 
+      # rubocop: disable Metrics/AbcSize,Metrics/MethodLength
       def start
+        ActionCable.server.config.cable = { "adapter" => "any_cable" }
+        Rails.application.initialize!
+
         AnyCable.logger.debug "Starting RPC server ..."
 
-        @thread = Thread.new { AnyCable::Server.start }
-        @thread.abort_on_exception = true
+        AnyCable.server_callbacks.each(&:call)
 
-        wait(2) { AnyCable::Server.running? }
+        @server = AnyCable::Server.new(
+          host: AnyCable.config.rpc_host,
+          **AnyCable.config.to_grpc_params,
+          interceptors: AnyCable.middleware.to_a
+        )
+
+        AnyCable.middleware.freeze
+
+        @server.start
 
         AnyCable.logger.debug "RPC server started"
       end
+      # rubocop: enable Metrics/AbcSize,Metrics/MethodLength
 
       def stop
-        return unless AnyCable::Server.running?
-
-        AnyCable::Server.grpc_server.stop
+        @server.stop
       end
     end
 

@@ -7,7 +7,7 @@ module Anyt
   class Config < Anyway::Config
     attr_config :command,
                 :only_tests,
-                target_url: "ws://localhost:9292/",
+                target_url: "ws://localhost:9292/cable",
                 wait_command: 2
 
     def filter_tests?

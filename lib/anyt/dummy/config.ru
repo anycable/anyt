@@ -7,4 +7,6 @@ require_relative "../tests"
 # Load channels from tests
 Anyt::Tests.load_all_tests
 
-run ActionCable.server
+Rails.application.initialize!
+
+run Rails.application
