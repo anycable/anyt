@@ -3,6 +3,7 @@
 require "logger"
 require "optparse"
 
+require "anyt/version"
 require "anyt/rpc"
 require "anyt/command"
 require "anyt/tests"
@@ -20,6 +21,8 @@ module Anyt
         ActionCable.server.config.logger = Rails.logger = AnyCable.logger
 
         result = 1
+        
+        $stdout.puts "Starting AnyT v#{Anyt::VERSION} (pid: #{Process.pid})\n"
 
         begin
           # Load all test scenarios
@@ -90,6 +93,12 @@ module Anyt
             cli.on("--wait-command=TIMEOUT", Integer,
                    "Number of seconds to wait for WS server initialization") do |timeout|
               Anyt.config.wait_command = timeout
+            end
+
+            cli.on("-rPATH", "--require=PATH",
+                   "Path to additional tests (e.g. features/*.rb") do |path|
+              Anyt.config.tests_relative_path = path
+              ENV["ANYT_TESTS_RELATIVE_PATH"] = path
             end
 
             cli.on("--debug", "Enable debug mode.") do

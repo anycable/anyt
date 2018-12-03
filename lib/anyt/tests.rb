@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
+require "anyt"
+require "anyt/client"
+require_relative "ext/minitest"
+
 module Anyt
   # Loads and runs test cases
   module Tests
-    require "anyt/client"
-    require_relative "ext/minitest"
-
     class << self
+      DEFAULT_PATTERNS = [
+        File.expand_path("tests/**/*.rb", __dir__)
+      ].freeze
+
       # Run all loaded tests
       def run
         Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
@@ -24,15 +29,16 @@ module Anyt
       def load_tests
         return load_all_tests unless Anyt.config.filter_tests?
 
-        pattern = File.expand_path("tests/**/*.rb", __dir__)
         skipped = []
         filter = Anyt.config.tests_filter
 
-        Dir.glob(pattern).each do |file|
-          if file.match?(filter)
-            require file
-          else
-            skipped << file.gsub(File.join(__dir__, 'tests/'), '').gsub('_test.rb', '')
+        test_files_patterns.each do |pattern|
+          Dir.glob(pattern).each do |file|
+            if file.match?(filter)
+              require file
+            else
+              skipped << file.gsub(File.join(__dir__, 'tests/'), '').gsub('_test.rb', '')
+            end
           end
         end
 
@@ -41,9 +47,17 @@ module Anyt
 
       # Load all test files
       def load_all_tests
-        pattern = File.expand_path("tests/**/*.rb", __dir__)
+        test_files_patterns.each do |pattern|
+          Dir.glob(pattern).each { |file| require file }
+        end
+      end
 
-        Dir.glob(pattern).each { |file| require file }
+      private
+
+      def test_files_patterns
+        @test_files_patterns ||= DEFAULT_PATTERNS.dup.tap do |patterns|
+          patterns << Anyt.config.tests_path if Anyt.config.tests_path
+        end
       end
     end
   end
