@@ -11,9 +11,9 @@ module Anyt
       def run
         return if @running
 
-        Anycable.logger.debug "Running command: #{Anyt.config.command}"
+        AnyCable.logger.debug "Running command: #{Anyt.config.command}"
 
-        out = Anycable.config.debug ? STDOUT : IO::NULL
+        out = AnyCable.config.debug ? STDOUT : IO::NULL
 
         @pid = Process.spawn(
           Anyt.config.command,
@@ -23,7 +23,7 @@ module Anyt
 
         Process.detach(@pid)
 
-        Anycable.logger.debug "Command PID: #{@pid}"
+        AnyCable.logger.debug "Command PID: #{@pid}"
 
         @running = true
 
@@ -35,7 +35,7 @@ module Anyt
       def stop
         return unless @running
 
-        Anycable.logger.debug "Terminate PID: #{@pid}"
+        AnyCable.logger.debug "Terminate PID: #{@pid}"
 
         Process.kill("SIGKILL", @pid)
 

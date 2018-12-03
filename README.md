@@ -1,6 +1,6 @@
 [![Gem Version](https://badge.fury.io/rb/anyt.svg)](https://rubygems.org/gems/anyt) [![Circle CI](https://circleci.com/gh/anycable/anycablebility/tree/master.svg?style=svg)](https://circleci.com/gh/anycable/anycablebility/tree/master) [![Gitter](https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/anycable/anycablebility)
 
-# Anycable Conformance Testing Tool
+# AnyCable Conformance Testing Tool
 
 AnyT is a command-line tool to test your [AnyCable](http://anycable.io)-compatible WebSocket servers.
 It contains a set of tests to determine which features are supported by the implementation under consideration.

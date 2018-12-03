@@ -55,7 +55,7 @@ module Anyt
 
             next if ignore_message_types.include?(message["type"])
 
-            Anycable.logger.debug "Message received: #{message}"
+            AnyCable.logger.debug "Message received: #{message}"
 
             messages << message
             has_messages.release

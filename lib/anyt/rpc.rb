@@ -12,24 +12,24 @@ module Anyt # :nodoc:
       attr_accessor :running
 
       def start
-        Anycable.logger.debug "Starting RPC server ..."
+        AnyCable.logger.debug "Starting RPC server ..."
 
-        @thread = Thread.new { Anycable::Server.start }
+        @thread = Thread.new { AnyCable::Server.start }
         @thread.abort_on_exception = true
 
-        wait(2) { Anycable::Server.running? }
+        wait(2) { AnyCable::Server.running? }
 
-        Anycable.logger.debug "RPC server started"
+        AnyCable.logger.debug "RPC server started"
       end
 
       def stop
-        return unless Anycable::Server.running?
+        return unless AnyCable::Server.running?
 
-        Anycable::Server.grpc_server.stop
+        AnyCable::Server.grpc_server.stop
       end
     end
 
-    Anycable.connection_factory = ActionCable.server.config.connection_class.call
-    Anycable.logger = Logger.new(IO::NULL) unless Anycable.config.debug
+    AnyCable.connection_factory = ActionCable.server.config.connection_class.call
+    AnyCable.logger = Logger.new(IO::NULL) unless AnyCable.config.debug
   end
 end

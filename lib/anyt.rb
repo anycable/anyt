@@ -4,7 +4,7 @@ require "anyt/version"
 require "anyt/config"
 require "anyt/utils"
 
-# Anycable conformance testing tool
+# AnyCable conformance testing tool
 module Anyt
   class << self
     def config

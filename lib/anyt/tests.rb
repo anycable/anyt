@@ -11,7 +11,7 @@ module Anyt
       def run
         Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-        Anycable.logger.debug "Run tests against: #{Anyt.config.target_url}"
+        AnyCable.logger.debug "Run tests against: #{Anyt.config.target_url}"
         Minitest.run
       end
 

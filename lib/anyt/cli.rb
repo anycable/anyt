@@ -17,7 +17,7 @@ module Anyt
       def run
         parse_options!
 
-        ActionCable.server.config.logger = Rails.logger = Anycable.logger
+        ActionCable.server.config.logger = Rails.logger = AnyCable.logger
 
         result = 1
 
@@ -67,7 +67,7 @@ module Anyt
             end
 
             cli.on("--redis-url=REDIS_URL", "Redis server URL.") do |redis|
-              Anycable.config.redis_url = redis
+              AnyCable.config.redis_url = redis
             end
 
             cli.on("--skip-rpc", TrueClass, "Do not run RPC server") do |flag|
@@ -93,7 +93,7 @@ module Anyt
             end
 
             cli.on("--debug", "Enable debug mode.") do
-              Anycable.config.debug = true
+              AnyCable.config.debug = true
             end
 
             cli.on("-h", "--help", "Show this message.") do

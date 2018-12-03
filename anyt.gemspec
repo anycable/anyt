@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "minitest", "~> 5.10.1"
   spec.add_dependency "minitest-reporters", "~> 1.1.0"
   spec.add_dependency "rails", "~> 5.0"
-  spec.add_dependency "anycable-rails", "~> 0.5.0"
+  spec.add_dependency "anycable-rails", "~> 0.6.0"
   spec.add_dependency "redis", "~> 3.0"
   spec.add_dependency "websocket", "~> 1.2.4"
   spec.add_dependency "websocket-client-simple", "~> 0.3.0"
