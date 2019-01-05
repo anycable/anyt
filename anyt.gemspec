@@ -23,9 +23,9 @@ Gem::Specification.new do |spec|
   spec.executables << "anyt"
 
   spec.add_dependency "rack", "~> 2"
-  spec.add_dependency "minitest", "~> 5.10.1"
+  spec.add_dependency "minitest", "~> 5.10"
   spec.add_dependency "minitest-reporters", "~> 1.1.0"
-  spec.add_dependency "rails", "~> 5.0"
+  spec.add_dependency "rails", ">= 5.0"
   spec.add_dependency "anycable-rails", "~> 0.6.0"
   spec.add_dependency "redis", "~> 4.0"
   spec.add_dependency "websocket", "~> 1.2.4"
