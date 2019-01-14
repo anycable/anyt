@@ -17,11 +17,7 @@ class TestApp < Rails::Application
   config.log_level = :fatal
   config.eager_load = true
 
-  initializer "routes" do
-    Rails.application.routes.draw do
-      mount ActionCable.server => "/cable"
-    end
-  end
+  config.paths["config/routes.rb"] << File.join(__dir__, "routes.rb")
 end
 
 module ApplicationCable
