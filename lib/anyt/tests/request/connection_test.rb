@@ -49,4 +49,19 @@ feature "Request" do
     client = build_client(qs: 'test=headers', headers: { 'x-api-token' => 'abc' })
     assert_equal client.receive, "type" => "welcome"
   end
+
+  scenario %{
+    Receives disconnect message when rejected
+  } do
+    client = build_client(qs: 'test=headers')
+    assert_equal(
+      client.receive,
+      "type" => "disconnect",
+      "reconnect" => false,
+      "reason" => "unauthorized"
+    )
+
+    client.wait_for_close
+    assert client.closed?
+  end
 end
