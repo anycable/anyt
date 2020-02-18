@@ -19,6 +19,8 @@ module Anyt
 
         process.detach = true
 
+        process.environment["ANYT_REMOTE_CONTROL_PORT"] = Anyt.config.remote_control_port
+
         process.start
 
         AnyCable.logger.debug "Command PID: #{process.pid}"
@@ -28,6 +30,17 @@ module Anyt
       end
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
+
+      def restart
+        return unless running?
+
+        AnyCable.logger.debug "Restarting command PID: #{process.pid}"
+
+        stop
+        process.wait
+
+        run
+      end
 
       def stop
         return unless running?

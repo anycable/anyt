@@ -13,6 +13,18 @@ module Anyt
     def build_client(*args)
       Anyt::Client.new(*args)
     end
+
+    def restart_server!
+      if Anyt.config.use_action_cable
+        remote_client.restart_action_cable
+      else
+        Command.restart
+      end
+    end
+
+    def remote_client
+      @remote_client ||= RemoteControl::Client.connect(Anyt.config.remote_control_port)
+    end
   end
 end
 

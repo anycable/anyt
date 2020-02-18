@@ -4,6 +4,7 @@ require "logger"
 require "optparse"
 
 require "anyt/version"
+require "anyt/remote_control"
 require "anyt/rpc"
 require "anyt/command"
 require "anyt/tests"
@@ -84,6 +85,7 @@ module Anyt
                 ::File.join(::File.dirname(__FILE__), "dummy")
               )
               Anyt.config.command = "bundle exec puma #{dummy_path}"
+              Anyt.config.use_action_cable = true
             end
 
             cli.on("--only test1,test2,test3", Array, "Run only specified tests") do |only_tests|

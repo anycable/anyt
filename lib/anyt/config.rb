@@ -8,6 +8,8 @@ module Anyt
     attr_config :command,
                 :only_tests,
                 :tests_relative_path,
+                remote_control_port: 8919,
+                use_action_cable: false,
                 target_url: "ws://localhost:9292/cable",
                 wait_command: 2
 
