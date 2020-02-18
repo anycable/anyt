@@ -1,50 +1,49 @@
 # frozen_string_literal: true
 
+require "childprocess"
+
 module Anyt
   # Runs system command (websocket server)
   module Command
     class << self
-      attr_accessor :running
-
       # rubocop: disable Metrics/MethodLength
       # rubocop: disable Metrics/AbcSize
       def run
-        return if @running
+        return if running?
 
         AnyCable.logger.debug "Running command: #{Anyt.config.command}"
 
-        out = AnyCable.config.debug ? STDOUT : IO::NULL
+        @process = ChildProcess.build(*Anyt.config.command.split(/\s+/))
 
-        @pid = Process.spawn(
-          Anyt.config.command,
-          out: out,
-          err: out
-        )
+        process.io.inherit! if AnyCable.config.debug
 
-        Process.detach(@pid)
+        process.detach = true
 
-        AnyCable.logger.debug "Command PID: #{@pid}"
+        process.start
 
-        @running = true
+        AnyCable.logger.debug "Command PID: #{process.pid}"
 
         sleep Anyt.config.wait_command
+        raise "Command failed to start" unless running?
       end
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
 
       def stop
-        return unless @running
+        return unless running?
 
-        AnyCable.logger.debug "Terminate PID: #{@pid}"
+        AnyCable.logger.debug "Terminate PID: #{process.pid}"
 
-        Process.kill("SIGKILL", @pid)
-
-        @running = false
+        process.stop
       end
 
       def running?
-        @running == true
+        process&.alive?
       end
+
+      private
+
+      attr_reader :process
     end
   end
 end
