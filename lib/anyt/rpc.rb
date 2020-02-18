@@ -41,6 +41,6 @@ module Anyt # :nodoc:
     end
 
     AnyCable.connection_factory = ActionCable.server.config.connection_class.call
-    AnyCable.logger = Logger.new(IO::NULL) unless AnyCable.config.debug
+    AnyCable.config.log_level = :fatal unless AnyCable.config.debug
   end
 end
