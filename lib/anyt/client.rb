@@ -24,7 +24,7 @@ module Anyt
       closed = @closed = Concurrent::Event.new
       has_messages = @has_messages = Concurrent::Semaphore.new(0)
 
-      headers = headers.merge('cookie' => cookies)
+      headers = headers.merge("cookie" => cookies)
 
       open = Concurrent::Promise.new
 

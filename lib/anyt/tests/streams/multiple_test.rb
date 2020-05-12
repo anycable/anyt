@@ -9,43 +9,43 @@ feature "Multiple streams" do
   end
 
   before do
-    subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
+    subscribe_request = {command: "subscribe", identifier: {channel: channel}.to_json}
 
     client.send(subscribe_request)
 
     ack = {
-      "identifier" => { channel: channel }.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client.receive
   end
 
-  scenario %{
+  scenario %(
     Client receives messages from both streams
-  } do
+  ) do
     ActionCable.server.broadcast("a", data: "X")
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "X" } }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
 
     ActionCable.server.broadcast("b", data: "Y")
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "Y" } }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
     assert_equal msg, client.receive
   end
 
-  scenario %{
+  scenario %(
     Client does not receive messages from any stream after removing subscription
-  } do
+  ) do
     ActionCable.server.broadcast("a", data: "X")
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "X" } }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
 
-    unsubscribe_request = { command: "unsubscribe", identifier: { channel: channel }.to_json }
+    unsubscribe_request = {command: "unsubscribe", identifier: {channel: channel}.to_json}
 
     client.send(unsubscribe_request)
 

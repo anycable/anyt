@@ -10,41 +10,41 @@ feature "Streams with many clients" do
   let(:client2) { build_client(ignore: %w[ping welcome]) }
 
   before do
-    subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
+    subscribe_request = {command: "subscribe", identifier: {channel: channel}.to_json}
 
     client.send(subscribe_request)
     client2.send(subscribe_request)
 
     ack = {
-      "identifier" => { channel: channel }.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client.receive
     assert_equal ack, client2.receive
   end
 
-  scenario %{
+  scenario %(
     Multiple clients receive messages from stream
-  } do
+  ) do
     ActionCable.server.broadcast("a", data: "X")
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "X" } }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
     assert_equal msg, client2.receive
   end
 
-  scenario %{
+  scenario %(
     Client receive messages when another client removes subscription
-  } do
+  ) do
     ActionCable.server.broadcast("a", data: "X")
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "X" } }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
     assert_equal msg, client2.receive
 
-    unsubscribe_request = { command: "unsubscribe", identifier: { channel: channel }.to_json }
+    unsubscribe_request = {command: "unsubscribe", identifier: {channel: channel}.to_json}
 
     client.send(unsubscribe_request)
 
@@ -53,7 +53,7 @@ feature "Streams with many clients" do
 
     ActionCable.server.broadcast("a", data: "Y")
 
-    msg2 = { "identifier" => { channel: channel }.to_json, "message" => { "data" => "Y" } }
+    msg2 = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
     assert_equal msg2, client2.receive
     assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }

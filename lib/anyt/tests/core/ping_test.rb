@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 feature "Ping" do
-  scenario %{
+  scenario %(
     Client receives pings with timestamps
-  } do
+  ) do
     client = build_client(ignore: ["welcome"])
 
     previous_stamp = 0

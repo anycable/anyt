@@ -10,7 +10,7 @@ require "anycable-rails"
 require "action_dispatch/middleware/cookies"
 
 class TestApp < Rails::Application
-  secrets.secret_token    = "secret_token"
+  secrets.secret_token = "secret_token"
   secrets.secret_key_base = "secret_key_base"
 
   config.logger = Logger.new(STDOUT)
@@ -40,7 +40,7 @@ module ApplicationCable
   end
 end
 
-ActionCable.server.config.cable = { "adapter" => "redis" }
+ActionCable.server.config.cable = {"adapter" => "redis"}
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
 ActionCable.server.config.logger =

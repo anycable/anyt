@@ -8,24 +8,23 @@ feature "Subscription transmissions" do
     end
   end
 
-  scenario %{
+  scenario %(
     Client receives transmissions from #subscribed callback
-  } do
-
-    subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
+  ) do
+    subscribe_request = {command: "subscribe", identifier: {channel: channel}.to_json}
 
     client.send(subscribe_request)
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => "hello" }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => "hello"}
 
     assert_equal msg, client.receive
 
-    msg = { "identifier" => { channel: channel }.to_json, "message" => "world" }
+    msg = {"identifier" => {channel: channel}.to_json, "message" => "world"}
 
     assert_equal msg, client.receive
 
     ack = {
-      "identifier" => { channel: channel }.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client.receive

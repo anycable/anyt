@@ -9,9 +9,6 @@ require "anyt/rpc"
 require "anyt/command"
 require "anyt/tests"
 
-# rubocop: disable Metrics/AbcSize
-# rubocop: disable Metrics/MethodLength
-# rubocop: disable Metrics/BlockLength
 module Anyt
   module Cli # :nodoc:
     class << self
@@ -93,12 +90,12 @@ module Anyt
             end
 
             cli.on("--wait-command=TIMEOUT", Integer,
-                   "Number of seconds to wait for WS server initialization") do |timeout|
+              "Number of seconds to wait for WS server initialization") do |timeout|
               Anyt.config.wait_command = timeout
             end
 
             cli.on("-rPATH", "--require=PATH",
-                   "Path to additional tests (e.g. features/*.rb") do |path|
+              "Path to additional tests (e.g. features/*.rb") do |path|
               Anyt.config.tests_relative_path = path
               ENV["ANYT_TESTS_RELATIVE_PATH"] = path
             end

@@ -9,19 +9,18 @@ feature "Request" do
     end
   end
 
-  scenario %{
+  scenario %(
     Channel has access to request
-  } do
-
+  ) do
     client = build_client(qs: "token=secret", ignore: %w[ping])
     assert_equal client.receive, "type" => "welcome"
 
-    subscribe_request = { command: "subscribe", identifier: { channel: channel }.to_json }
+    subscribe_request = {command: "subscribe", identifier: {channel: channel}.to_json}
 
     client.send(subscribe_request)
 
     ack = {
-      "identifier" => { channel: channel }.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client.receive

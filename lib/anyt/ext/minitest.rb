@@ -50,7 +50,7 @@ module Anyt
 
       def handlers_for(connection)
         handlers.select do |(tag, _)|
-          connection.params['test'] == tag
+          connection.params["test"] == tag
         end
       end
 
@@ -86,7 +86,7 @@ module Minitest::Spec::DSL
   # Generates Channel class dynamically and
   # add memoized helper to access its name
   def channel(id = nil, &block)
-    class_name = @name.gsub(/\s+/, '_')
+    class_name = @name.gsub(/\s+/, "_")
     class_name += "_#{id}" if id
     class_name += "_channel"
 
@@ -111,14 +111,14 @@ module Anyt
   module MinitestPatch
     def load_plugins
       super
-      extensions.delete('rails')
+      extensions.delete("rails")
     end
   end
 
   # Patch Spec reporter
   module ReporterPatch # :nodoc:
     def record_print_status(test)
-      test_name = test.name.gsub(/^test_/, '').strip
+      test_name = test.name.gsub(/^test_/, "").strip
       print pad_test(test_name)
       print_colored_status(test)
       print(" (%.2fs)" % test.time) unless test.time.nil?

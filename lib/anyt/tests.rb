@@ -24,8 +24,6 @@ module Anyt
       #
       # NOTE: We should run this before launching RPC server
 
-      # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/MethodLength
       def load_tests
         return load_all_tests unless Anyt.config.filter_tests?
 
@@ -33,22 +31,22 @@ module Anyt
         filter = Anyt.config.tests_filter
 
         test_files_patterns.each do |pattern|
-          Dir.glob(pattern).each do |file|
+          Dir.glob(pattern).sort.each do |file|
             if file.match?(filter)
               require file
             else
-              skipped << file.gsub(File.join(__dir__, 'tests/'), '').gsub('_test.rb', '')
+              skipped << file.gsub(File.join(__dir__, "tests/"), "").gsub("_test.rb", "")
             end
           end
         end
 
-        $stdout.print "Skipping tests: #{skipped.join(', ')}\n"
+        $stdout.print "Skipping tests: #{skipped.join(", ")}\n"
       end
 
       # Load all test files
       def load_all_tests
         test_files_patterns.each do |pattern|
-          Dir.glob(pattern).each { |file| require file }
+          Dir.glob(pattern).sort.each { |file| require file }
         end
       end
 

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 feature "Request" do
-  connect_handler('reasons') do
+  connect_handler("reasons") do
     next false if request.params[:reason] == "unauthorized"
     true
   end
 
-  scenario %{
+  scenario %(
     Receives disconnect message when rejected
-  } do
-    client = build_client(qs: 'test=reasons&reason=unauthorized')
+  ) do
+    client = build_client(qs: "test=reasons&reason=unauthorized")
     assert_equal(
       client.receive,
       "type" => "disconnect",
@@ -21,12 +21,12 @@ feature "Request" do
     assert client.closed?
   end
 
-  scenario %{
+  scenario %(
     Receives disconnect message when server restarts
-  } do
+  ) do
     client = build_client(
-      qs: 'test=reasons&reason=server_restart',
-      ignore: %[ping]
+      qs: "test=reasons&reason=server_restart",
+      ignore: %(ping)
     )
 
     assert_equal client.receive, "type" => "welcome"
