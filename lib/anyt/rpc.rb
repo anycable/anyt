@@ -11,6 +11,7 @@ module Anyt # :nodoc:
 
     class << self
       attr_accessor :running
+      attr_reader :server
 
       # rubocop: disable Metrics/AbcSize,Metrics/MethodLength
       def start
@@ -29,14 +30,14 @@ module Anyt # :nodoc:
 
         AnyCable.middleware.freeze
 
-        @server.start
+        server.start
 
         AnyCable.logger.debug "RPC server started"
       end
       # rubocop: enable Metrics/AbcSize,Metrics/MethodLength
 
       def stop
-        @server.stop
+        server&.stop
       end
     end
 

@@ -31,6 +31,11 @@ module Anyt
           unless @skip_rpc
             require "anycable-rails"
             RPC.start
+
+            if @only_rpc
+              RPC.server.wait_till_terminated
+              return
+            end
           end
 
           # Start webosocket server under test
@@ -73,6 +78,10 @@ module Anyt
 
             cli.on("--skip-rpc", TrueClass, "Do not run RPC server") do |flag|
               @skip_rpc = flag
+            end
+
+            cli.on("--only-rpc", TrueClass, "Run only RPC server") do |flag|
+              @only_rpc = flag
             end
 
             cli.on("--self-check", "Run tests again Action Cable itself") do

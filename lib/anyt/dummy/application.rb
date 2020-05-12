@@ -14,7 +14,7 @@ class TestApp < Rails::Application
   secrets.secret_key_base = "secret_key_base"
 
   config.logger = Logger.new(STDOUT)
-  config.log_level = :fatal
+  config.log_level = AnyCable.config.log_level
   config.eager_load = true
 
   config.paths["config/routes.rb"] << File.join(__dir__, "routes.rb")
