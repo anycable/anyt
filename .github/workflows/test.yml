@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      BUNDLE_FORCE_RUBY_PLATFORM: 1
+      CI: true
+    services:
+      redis:
+        image: redis:5.0-alpine
+        ports: ["6379:6379"]
+        options: --health-cmd="redis-cli ping" --health-interval 1s --health-timeout 3s --health-retries 30
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: /home/runner/bundle
+        key: bundle-${{ hashFiles('**/*.gemspec') }}-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          bundle-
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+    - name: Bundle install
+      run: |
+        bundle config path /home/runner/bundle
+        bundle install
+        bundle update
+    - name: Run tests
+      run: |
+        make test
