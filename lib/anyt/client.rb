@@ -87,10 +87,10 @@ module Anyt
       @ws.send(JSON.generate(message))
     end
 
-    def close
+    def close(allow_messages: false)
       sleep WAIT_WHEN_NOT_EXPECTING_EVENT
 
-      raise "#{@messages.size} messages unprocessed" unless @messages.empty?
+      raise "#{@messages.size} messages unprocessed" unless allow_messages || @messages.empty?
 
       @ws.close
       wait_for_close
