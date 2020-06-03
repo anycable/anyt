@@ -25,12 +25,12 @@ module ApplicationCable
     delegate :params, to: :request
 
     def connect
-      logger.info "Connected"
+      logger.debug "Connected"
       Anyt::ConnectHandlers.call(self)
     end
 
     def disconnect
-      logger.info "Disconnected"
+      logger.debug "Disconnected"
     end
   end
 end
@@ -44,4 +44,4 @@ ActionCable.server.config.cable = {"adapter" => "redis"}
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
 ActionCable.server.config.logger =
-  Rails.logger = Logger.new(STDOUT).tap { |l| l.level = Logger::DEBUG }
+  Rails.logger
