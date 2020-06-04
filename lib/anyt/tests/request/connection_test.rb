@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 feature "Request" do
+  target_host = URI.parse(Anyt.config.target_url).host
+
   connect_handler("request_url") do
-    request.url =~ /test=request_url/
+    request.url =~ /test=request_url/ && request.host == target_host
   end
 
   scenario %(
