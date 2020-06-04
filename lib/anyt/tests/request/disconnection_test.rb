@@ -7,7 +7,7 @@ feature "Request" do
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("request_a", data: "user left#{params[:id].presence}")
+      ActionCable.server.broadcast("request_a", data: "user left")
     end
   end
 
@@ -21,9 +21,22 @@ feature "Request" do
     end
   end
 
+  channel(:c) do
+    def subscribed
+      stream_from "request_c"
+    end
+
+    def unsubscribed
+      ActionCable.server.broadcast("request_c", data: "user left#{params[:id].presence}")
+    end
+  end
+
   let(:client2) { build_client(ignore: %w[ping welcome]) }
 
-  before do
+  scenario %(
+    Client disconnect invokes #unsubscribe callbacks
+    for different channels
+  ) do
     subscribe_request = {command: "subscribe", identifier: {channel: a_channel}.to_json}
 
     client.send(subscribe_request)
@@ -43,12 +56,7 @@ feature "Request" do
     }
 
     assert_equal ack, client.receive
-  end
 
-  scenario %(
-    Client disconnect invokes #unsubscribe callbacks
-    for different channels
-  ) do
     subscribe_request = {command: "subscribe", identifier: {channel: a_channel}.to_json}
 
     client2.send(subscribe_request)
@@ -90,22 +98,32 @@ feature "Request" do
     Client disconnect invokes #unsubscribe callbacks
     for multiple subscriptions from the same channel
   ) do
-    subscribe_request = {command: "subscribe", identifier: {channel: a_channel, id: 1}.to_json}
+    subscribe_request = {command: "subscribe", identifier: {channel: c_channel}.to_json}
+
+    client.send(subscribe_request)
+
+    ack = {
+      "identifier" => {channel: c_channel}.to_json, "type" => "confirm_subscription"
+    }
+
+    assert_equal ack, client.receive
+
+    subscribe_request = {command: "subscribe", identifier: {channel: c_channel, id: 1}.to_json}
 
     client2.send(subscribe_request)
 
     ack = {
-      "identifier" => {channel: a_channel, id: 1}.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: c_channel, id: 1}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client2.receive
 
-    subscribe_request = {command: "subscribe", identifier: {channel: a_channel, id: 2}.to_json}
+    subscribe_request = {command: "subscribe", identifier: {channel: c_channel, id: 2}.to_json}
 
     client2.send(subscribe_request)
 
     ack = {
-      "identifier" => {channel: a_channel, id: 2}.to_json, "type" => "confirm_subscription"
+      "identifier" => {channel: c_channel, id: 2}.to_json, "type" => "confirm_subscription"
     }
 
     assert_equal ack, client2.receive
@@ -113,12 +131,12 @@ feature "Request" do
     client2.close
 
     msg = {
-      "identifier" => {channel: a_channel}.to_json,
+      "identifier" => {channel: c_channel}.to_json,
       "message" => {"data" => "user left1"}
     }
 
     msg2 = {
-      "identifier" => {channel: a_channel}.to_json,
+      "identifier" => {channel: c_channel}.to_json,
       "message" => {"data" => "user left2"}
     }
 
