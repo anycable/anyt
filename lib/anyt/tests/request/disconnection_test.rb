@@ -3,21 +3,21 @@
 feature "Request" do
   channel(:a) do
     def subscribed
-      stream_from "a"
+      stream_from "request_a"
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("a", data: "user left#{params[:id].presence}")
+      ActionCable.server.broadcast("request_a", data: "user left#{params[:id].presence}")
     end
   end
 
   channel(:b) do
     def subscribed
-      stream_from "b"
+      stream_from "request_b"
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("b", data: "user left")
+      ActionCable.server.broadcast("request_b", data: "user left")
     end
   end
 
