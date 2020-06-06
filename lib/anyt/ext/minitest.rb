@@ -7,8 +7,8 @@ module Anyt
   # Common tests helpers
   module TestHelpers
     def self.included(base)
-      base.let(:client) { build_client(ignore: %w[ping welcome]) }
-      base.after { client.close(allow_messages: true) }
+      base.let(:client) { @client = build_client(ignore: %w[ping welcome]) }
+      base.after { @client&.close(allow_messages: true) }
     end
 
     def build_client(*args)
