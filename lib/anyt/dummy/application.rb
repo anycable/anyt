@@ -24,6 +24,8 @@ module ApplicationCable
   class Connection < ActionCable::Connection::Base
     delegate :params, to: :request
 
+    identified_by :uid
+
     def connect
       logger.debug "Connected"
       Anyt::ConnectHandlers.call(self)
