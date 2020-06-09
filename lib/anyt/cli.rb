@@ -23,6 +23,9 @@ module Anyt
         $stdout.puts "Starting AnyT v#{Anyt::VERSION} (pid: #{Process.pid})\n"
 
         begin
+          # "Enable" AnyCable as early as possible to activate all the features in tests
+          ActionCable.server.config.cable = {"adapter" => "any_cable"} unless @skip_rpc
+
           # Load all test scenarios
           Tests.load_tests
 

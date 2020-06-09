@@ -2,8 +2,6 @@
 
 feature "Channel state" do
   channel do
-    include AnyCable::Rails::ChannelState
-
     state_attr_accessor :user, :count
 
     def subscribed
