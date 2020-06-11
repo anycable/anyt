@@ -48,6 +48,7 @@ module Anyt
         end
 
         ws.on(:message) do |event|
+          next if event.type == :ping
           if event.type == :close
             closed.set
           else
