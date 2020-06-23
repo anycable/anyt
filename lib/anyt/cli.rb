@@ -101,6 +101,10 @@ module Anyt
               Anyt.config.only_tests = only_tests
             end
 
+            cli.on("--except test1,test2,test3", Array, "Exclude specified tests") do |except_tests|
+              Anyt.config.except_tests = except_tests
+            end
+
             cli.on("--wait-command=TIMEOUT", Integer,
               "Number of seconds to wait for WS server initialization") do |timeout|
               Anyt.config.wait_command = timeout

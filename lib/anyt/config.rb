@@ -7,6 +7,7 @@ module Anyt
   class Config < Anyway::Config
     attr_config :command,
       :only_tests,
+      :except_tests,
       :tests_relative_path,
       remote_control_port: 8919,
       use_action_cable: false,
@@ -20,12 +21,16 @@ module Anyt
     end
 
     def filter_tests?
-      !only_tests.nil?
+      only_tests || except_tests
     end
 
     def tests_filter
-      @tests_filter ||= begin
-        /(#{only_tests.join('|')})/
+      only_rxp = /(#{only_tests.join('|')})/ if only_tests
+      except_rxp = /(#{except_tests.join('|')})/ if except_tests
+
+      @tests_filter ||= lambda do |path|
+        (only_rxp.nil? || only_rxp.match?(path)) &&
+          (except_rxp.nil? || !except_rxp.match?(path))
       end
     end
   end

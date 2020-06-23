@@ -32,7 +32,7 @@ module Anyt
 
         test_files_patterns.each do |pattern|
           Dir.glob(pattern).sort.each do |file|
-            if file.match?(filter)
+            if filter.call(file)
               require file
             else
               skipped << file.gsub(File.join(__dir__, "tests/"), "").gsub("_test.rb", "")
