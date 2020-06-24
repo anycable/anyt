@@ -114,6 +114,11 @@ module Anyt
               Anyt.config.wait_command = timeout
             end
 
+            cli.on("--timeout-multiplier=VALUE", Float,
+              "Default exceptation timeouts multiplier") do |val|
+              Anyt.config.timeout_multiplier = val
+            end
+
             cli.on("-rPATH", "--require=PATH",
               "Path to additional tests (e.g. features/*.rb") do |path|
               Anyt.config.tests_relative_path = path

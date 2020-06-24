@@ -17,12 +17,15 @@ module Anyt
     # rubocop: disable Metrics/BlockLength
     def initialize(
       ignore: [], url: Anyt.config.target_url, qs: "",
-      cookies: "", headers: {}
+      cookies: "", headers: {},
+      timeout_multiplier: Anyt.config.timeout_multiplier
     )
       ignore_message_types = @ignore_message_types = ignore
       messages = @messages = Queue.new
       closed = @closed = Concurrent::Event.new
       has_messages = @has_messages = Concurrent::Semaphore.new(0)
+
+      @timeout_multiplier = timeout_multiplier
 
       headers = headers.merge("cookie" => cookies)
 
@@ -68,13 +71,15 @@ module Anyt
         end
       end
 
-      open.wait!(WAIT_WHEN_EXPECTING_EVENT)
+      open.wait!(WAIT_WHEN_EXPECTING_EVENT * @timeout_multiplier)
     end
     # rubocop: enable Metrics/BlockLength
     # rubocop: enable Metrics/AbcSize
     # rubocop: enable Metrics/MethodLength
 
     def receive(timeout: WAIT_WHEN_EXPECTING_EVENT)
+      timeout *= @timeout_multiplier
+
       raise TimeoutError, "Timed out to receive message" unless
         @has_messages.try_acquire(1, timeout)
 
@@ -89,7 +94,7 @@ module Anyt
     end
 
     def close(allow_messages: false)
-      sleep WAIT_WHEN_NOT_EXPECTING_EVENT
+      sleep WAIT_WHEN_NOT_EXPECTING_EVENT * @timeout_multiplier
 
       raise "#{@messages.size} messages unprocessed" unless allow_messages || @messages.empty?
 
@@ -98,7 +103,7 @@ module Anyt
     end
 
     def wait_for_close
-      @closed.wait(WAIT_WHEN_EXPECTING_EVENT)
+      @closed.wait(WAIT_WHEN_EXPECTING_EVENT * @timeout_multiplier)
     end
 
     def closed?
