@@ -15,8 +15,6 @@ module Anyt # :nodoc:
 
       # rubocop: disable Metrics/AbcSize,Metrics/MethodLength
       def start
-        Rails.application.initialize!
-
         AnyCable.logger.debug "Starting RPC server ..."
 
         AnyCable.server_callbacks.each(&:call)
