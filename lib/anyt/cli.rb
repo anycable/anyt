@@ -24,7 +24,7 @@ module Anyt
 
         begin
           # "Enable" AnyCable as early as possible to activate all the features in tests
-          ActionCable.server.config.cable = {"adapter" => "any_cable"} unless @skip_rpc
+          ActionCable.server.config.cable = {"adapter" => "any_cable"} unless Anyt.config.use_action_cable
 
           # Load all test scenarios
           Tests.load_tests
