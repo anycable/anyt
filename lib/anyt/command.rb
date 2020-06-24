@@ -19,6 +19,7 @@ module Anyt
 
         process.detach = true
 
+        process.environment["ANYCABLE_DEBUG"] = "1" if AnyCable.config.debug?
         process.environment["ANYT_REMOTE_CONTROL_PORT"] = Anyt.config.remote_control_port
 
         process.start
