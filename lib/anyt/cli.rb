@@ -9,6 +9,8 @@ require "anyt/rpc"
 require "anyt/command"
 require "anyt/tests"
 
+$stdout.sync = true
+
 module Anyt
   module Cli # :nodoc:
     class << self
