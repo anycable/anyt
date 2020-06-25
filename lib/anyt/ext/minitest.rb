@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+ENV["TERM"] = "#{ENV["TERM"]}color" unless ENV["TERM"]&.match?(/color/)
 require "minitest/spec"
 require "minitest/reporters"
 
@@ -120,7 +121,7 @@ module Anyt
   module ReporterPatch # :nodoc:
     def record_print_status(test)
       test_name = test.name.gsub(/^test_/, "").strip
-      print pad_test(test_name)
+      print(magenta { pad_test(test_name) })
       print_colored_status(test)
       print(" (%.2fs)" % test.time) unless test.time.nil?
       puts
