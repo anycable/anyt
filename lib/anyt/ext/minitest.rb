@@ -8,12 +8,15 @@ module Anyt
   # Common tests helpers
   module TestHelpers
     def self.included(base)
-      base.let(:client) { @client = build_client(ignore: %w[ping welcome]) }
-      base.after { @client&.close(allow_messages: true) }
+      base.let(:client) { build_client(ignore: %w[ping welcome]) }
+      base.after { @clients&.each { |client| client.close(allow_messages: true) } }
     end
 
     def build_client(*args)
-      Anyt::Client.new(*args)
+      @clients ||= []
+      Anyt::Client.new(*args).tap do |client|
+        @clients << client
+      end
     end
 
     def restart_server!
