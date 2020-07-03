@@ -16,6 +16,6 @@ if File.directory?(File.join(__dir__, "../anycable"))
     gem "anycable-rails"
   end
 else
-  gem "anycable", github: "anycable/anycable"
-  gem "anycable-rails", github: "anycable/anycable-rails"
+  gem "anycable", ">= 1.0.0"
+  gem "anycable-rails", ">= 1.0.0"
 end
