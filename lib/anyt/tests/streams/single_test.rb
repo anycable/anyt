@@ -55,4 +55,29 @@ feature "Single stream" do
 
     assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
   end
+
+  scenario %(
+    Client receives multiple messages when subscribed to the same channel
+    with different params
+  ) do
+    subscribe_request = {command: "subscribe", identifier: {channel: channel, some_param: "test"}.to_json}
+
+    client.send(subscribe_request)
+
+    ack = {
+      "identifier" => {channel: channel, some_param: "test"}.to_json, "type" => "confirm_subscription"
+    }
+
+    assert_equal ack, client.receive
+
+    ActionCable.server.broadcast("a", data: "XX")
+
+    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "XX"}}
+    msg2 = {"identifier" => {channel: channel, some_param: "test"}.to_json, "message" => {"data" => "XX"}}
+
+    received = client.receive, client.receive
+
+    assert_includes received, msg
+    assert_includes received, msg2
+  end
 end
