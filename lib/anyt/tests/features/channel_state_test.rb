@@ -17,6 +17,8 @@ feature "Channel state" do
     end
 
     def unsubscribed
+      return unless params["notify_disconnect"]
+
       ActionCable.server.broadcast("state_counts", data: "user left: #{user[:name]}")
     end
   end
@@ -24,7 +26,7 @@ feature "Channel state" do
   let(:identifier) { {channel: channel, name: "chipolino"}.to_json }
 
   let(:client2) { build_client(ignore: %w[ping welcome]) }
-  let(:identifier2) { {channel: channel, name: "chipollone"}.to_json }
+  let(:identifier2) { {channel: channel, name: "chipollone", notify_disconnect: true}.to_json }
 
   before do
     subscribe_request = {command: "subscribe", identifier: identifier}
@@ -67,13 +69,13 @@ feature "Channel state" do
 
     assert_equal ack, client2.receive
 
-    client.close
+    client2.close
 
     msg = {
-      "identifier" => identifier2,
-      "message" => {"data" => "user left: chipolino"}
+      "identifier" => identifier,
+      "message" => {"data" => "user left: chipollone"}
     }
 
-    assert_equal msg, client2.receive
+    assert_equal msg, client.receive
   end
 end
