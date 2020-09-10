@@ -42,6 +42,29 @@ module ApplicationCable
   end
 end
 
+# BenchmarkChannel is useful when running Rails app only or RPC only
+class BenchmarkChannel < ApplicationCable::Channel
+  def subscribed
+    stream_from "all#{stream_id}"
+  end
+
+  def echo(data)
+    transmit data
+  end
+
+  def broadcast(data)
+    ActionCable.server.broadcast "all#{stream_id}", data
+    data["action"] = "broadcastResult"
+    transmit data
+  end
+
+  private
+
+  def stream_id
+    params[:id] || ""
+  end
+end
+
 ActionCable.server.config.cable = {"adapter" => "redis"}
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
