@@ -32,7 +32,7 @@ module Anyt
           end
 
           # Load all test scenarios
-          Tests.load_tests
+          Tests.load_tests unless @skip_tests
 
           Rails.application.initialize!
 
@@ -50,8 +50,14 @@ module Anyt
           # Start webosocket server under test
           Command.run
 
-          # Run tests
-          result = Tests.run ? 0 : 1
+          unless @skip_tests
+            # Run tests
+            result = Tests.run ? 0 : 1
+          end
+
+          wait_till_terminated if @only_rails
+        rescue Interrupt => e
+          $stdout.puts "#{e.message}. Good-bye!"
         ensure
           RPC.stop unless @skip_rpc
           Command.stop
@@ -91,16 +97,21 @@ module Anyt
 
             cli.on("--only-rpc", TrueClass, "Run only RPC server") do |flag|
               @only_rpc = flag
+              @skip_tests = true
+            end
+
+            cli.on("--only-rails", TrueClass, "Run only Rails server") do
+              @skip_rpc = true
+              @only_rails = true
+              @skip_tests = true
+
+              configure_rails_command!
             end
 
             cli.on("--self-check", "Run tests again Action Cable itself") do
               @skip_rpc = true
-              dummy_path = ::File.expand_path(
-                "config.ru",
-                ::File.join(::File.dirname(__FILE__), "dummy")
-              )
-              Anyt.config.command = "bundle exec puma #{dummy_path}"
-              Anyt.config.use_action_cable = true
+
+              configure_rails_command!
             end
 
             cli.on("--only test1,test2,test3", Array, "Run only specified tests") do |only_tests|
@@ -148,6 +159,36 @@ module Anyt
         puts "This option looks unfamiliar: #{unknown_option}. A typo?"
         puts "Use `anyt --help` to list all available options."
         exit 1
+      end
+
+      def configure_rails_command!
+        dummy_path = ::File.expand_path(
+          "config.ru",
+          ::File.join(::File.dirname(__FILE__), "dummy")
+        )
+        Anyt.config.command = "bundle exec puma #{dummy_path}"
+        Anyt.config.use_action_cable = true
+      end
+
+      def wait_till_terminated
+        self_read = setup_signals
+
+        while readable_io = IO.select([self_read]) # rubocop:disable Lint/AssignmentInCondition
+          signal = readable_io.first[0].gets.strip
+          raise Interrupt, "SIG#{signal} received"
+        end
+      end
+
+      def setup_signals
+        self_read, self_write = IO.pipe
+
+        %w[INT TERM].each do |signal|
+          trap signal do
+            self_write.puts signal
+          end
+        end
+
+        self_read
       end
     end
   end

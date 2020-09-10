@@ -11,6 +11,8 @@ module Anyt
       def run
         return if running?
 
+        raise "Please, specify command via -c (--command) option" unless Anyt.config.command
+
         AnyCable.logger.debug "Running command: #{Anyt.config.command}"
 
         @process = ChildProcess.build(*Anyt.config.command.split(/\s+/))
