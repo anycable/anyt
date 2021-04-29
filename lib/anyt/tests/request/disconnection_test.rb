@@ -7,7 +7,7 @@ feature "Request" do
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("request_a", data: "user left")
+      ActionCable.server.broadcast("request_a", {data: "user left"})
     end
   end
 
@@ -17,7 +17,7 @@ feature "Request" do
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("request_b", data: "user left")
+      ActionCable.server.broadcast("request_b", {data: "user left"})
     end
   end
 
@@ -27,7 +27,7 @@ feature "Request" do
     end
 
     def unsubscribed
-      ActionCable.server.broadcast("request_c", data: "user left#{params[:id].presence}")
+      ActionCable.server.broadcast("request_c", {data: "user left#{params[:id].presence}"})
     end
   end
 

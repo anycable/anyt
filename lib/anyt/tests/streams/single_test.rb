@@ -22,13 +22,13 @@ feature "Single stream" do
   scenario %(
     Client receives messages from the stream
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
 
-    ActionCable.server.broadcast("a", data: "Y")
+    ActionCable.server.broadcast("a", {data: "Y"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
@@ -38,7 +38,7 @@ feature "Single stream" do
   scenario %(
     Client does not receive messages from the stream after removing subscription
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
@@ -51,7 +51,7 @@ feature "Single stream" do
     # ActionCable doesn't provide an unsubscription ack :(
     sleep 1
 
-    ActionCable.server.broadcast("a", data: "Y")
+    ActionCable.server.broadcast("a", {data: "Y"})
 
     assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
   end
@@ -70,7 +70,7 @@ feature "Single stream" do
 
     assert_equal ack, client.receive
 
-    ActionCable.server.broadcast("a", data: "XX")
+    ActionCable.server.broadcast("a", {data: "XX"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "XX"}}
     msg2 = {"identifier" => {channel: channel, some_param: "test"}.to_json, "message" => {"data" => "XX"}}

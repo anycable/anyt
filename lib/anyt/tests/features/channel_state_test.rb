@@ -13,13 +13,13 @@ feature "Channel state" do
 
     def tick
       self.count += 2
-      transmit(count: count, name: user[:name])
+      transmit({count: count, name: user[:name]})
     end
 
     def unsubscribed
       return unless params["notify_disconnect"]
 
-      ActionCable.server.broadcast("state_counts", data: "user left: #{user[:name]}")
+      ActionCable.server.broadcast("state_counts", {data: "user left: #{user[:name]}"})
     end
   end
 

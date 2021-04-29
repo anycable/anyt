@@ -24,7 +24,7 @@ feature "Broadcast data to stream" do
   ) do
     ActionCable.server.broadcast(
       "a",
-      data: {user_id: 1, status: "left", meta: {connection_time: "10s"}}
+      {data: {user_id: 1, status: "left", meta: {connection_time: "10s"}}}
     )
 
     msg = {

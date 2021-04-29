@@ -21,7 +21,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval 1s --health-timeout 3s --health-retries 30
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/cache@v1
+    - uses: actions/cache@v2
       with:
         path: /home/runner/bundle
         key: bundle-${{ hashFiles('**/*.gemspec') }}-${{ hashFiles('**/Gemfile') }}
@@ -29,7 +29,7 @@ jobs:
           bundle-
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
+        ruby-version: 3.0
     - name: Bundle install
       run: |
         bundle config path /home/runner/bundle

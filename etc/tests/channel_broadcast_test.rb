@@ -7,7 +7,7 @@ feature "Broadcast data from channel" do
     end
 
     def speak(msg)
-      ActionCable.server.broadcast "a", text: msg["msg"]
+      ActionCable.server.broadcast "a", {text: msg["msg"]}
     end
   end
 

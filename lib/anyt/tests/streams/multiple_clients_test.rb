@@ -26,7 +26,7 @@ feature "Streams with many clients" do
   scenario %(
     Multiple clients receive messages from stream
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
@@ -37,7 +37,7 @@ feature "Streams with many clients" do
   scenario %(
     Client receive messages when another client removes subscription
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
@@ -51,7 +51,7 @@ feature "Streams with many clients" do
     # ActionCable doesn't provide an unsubscription ack :(
     sleep 1
 
-    ActionCable.server.broadcast("a", data: "Y")
+    ActionCable.server.broadcast("a", {data: "Y"})
 
     msg2 = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 

@@ -23,13 +23,13 @@ feature "Multiple streams" do
   scenario %(
     Client receives messages from both streams
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
     assert_equal msg, client.receive
 
-    ActionCable.server.broadcast("b", data: "Y")
+    ActionCable.server.broadcast("b", {data: "Y"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
@@ -39,7 +39,7 @@ feature "Multiple streams" do
   scenario %(
     Client does not receive messages from any stream after removing subscription
   ) do
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
@@ -52,8 +52,8 @@ feature "Multiple streams" do
     # ActionCable doesn't provide an unsubscription ack :(
     sleep 1
 
-    ActionCable.server.broadcast("a", data: "Y")
-    ActionCable.server.broadcast("b", data: "Z")
+    ActionCable.server.broadcast("a", {data: "Y"})
+    ActionCable.server.broadcast("b", {data: "Z"})
 
     assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
   end

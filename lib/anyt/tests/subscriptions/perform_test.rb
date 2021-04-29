@@ -10,7 +10,7 @@ feature "Subscription perform methods" do
     end
 
     def echo(data)
-      transmit(response: data["text"])
+      transmit({response: data["text"]})
     end
   end
 

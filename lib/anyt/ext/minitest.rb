@@ -12,9 +12,9 @@ module Anyt
       base.after { @clients&.each { |client| client.close(allow_messages: true) } }
     end
 
-    def build_client(*args)
+    def build_client(**args)
       @clients ||= []
-      Anyt::Client.new(*args).tap do |client|
+      Anyt::Client.new(**args).tap do |client|
         @clients << client
       end
     end

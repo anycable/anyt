@@ -8,7 +8,7 @@ feature "Stop streams" do
     end
 
     def ping(data)
-      ActionCable.server.broadcast data["name"], reply: "pong"
+      ActionCable.server.broadcast data["name"], {reply: "pong"}
     end
 
     def unfollow(data)
@@ -33,7 +33,7 @@ feature "Stop streams" do
   ) do
     skip if Anyt.config.use_action_cable && (::ActionCable::VERSION::MAJOR < 6 || ::ActionCable::VERSION::MINOR < 1)
 
-    ActionCable.server.broadcast("a", data: "X")
+    ActionCable.server.broadcast("a", {data: "X"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
@@ -47,9 +47,9 @@ feature "Stop streams" do
     client.send(perform_request)
     sleep 0.2 # give some time to commit unsubscribe
 
-    ActionCable.server.broadcast("a", data: "Y")
+    ActionCable.server.broadcast("a", {data: "Y"})
     sleep 0.2 # "a" should be broadcasted first
-    ActionCable.server.broadcast("b", data: "Z")
+    ActionCable.server.broadcast("b", {data: "Z"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Z"}}
     assert_equal msg, client.receive
