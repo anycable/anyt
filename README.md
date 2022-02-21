@@ -1,7 +1,6 @@
 [![Cult Of Martians](http://cultofmartians.com/assets/badges/badge.svg)](https://cultofmartians.com/tasks/anycable-conformance-tool.html#task)
 [![Gem Version](https://badge.fury.io/rb/anyt.svg)](https://rubygems.org/gems/anyt)
 ![Test](https://github.com/anycable/anyt/workflows/Test/badge.svg)
-[![Gitter](https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/anycable/anycablebility)
 
 # AnyCable Conformance Testing Tool
 
