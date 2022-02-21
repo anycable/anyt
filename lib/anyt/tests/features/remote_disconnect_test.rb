@@ -12,6 +12,9 @@ feature "Remote disconnect" do
     client = build_client(qs: "test=uid&uid=26", ignore: %w[ping])
     assert_equal client.receive, "type" => "welcome"
 
+    # Prevent race conditions when we send disconnect before internal channel subscription has been made
+    # (only for Action Cable)
+    sleep 1
     ActionCable.server.remote_connections.where(uid: "26").disconnect
 
     # Waiting for https://github.com/rails/rails/pull/39544
