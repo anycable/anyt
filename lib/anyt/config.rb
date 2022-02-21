@@ -15,6 +15,9 @@ module Anyt
       wait_command: 2,
       timeout_multiplier: 1
 
+    coerce_types only_tests: {type: :string, array: true}
+    coerce_types except_tests: {type: :string, array: true}
+
     def tests_path
       return unless tests_relative_path
 
