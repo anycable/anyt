@@ -14,7 +14,7 @@ feature "Subscription with params" do
       "identifier" => {channel: channel, id: 1}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
 
     subscribe_request_2 = {command: "subscribe", identifier: {channel: channel, id: 2}.to_json}
 
@@ -24,6 +24,6 @@ feature "Subscription with params" do
       "identifier" => {channel: channel, id: 2}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 end

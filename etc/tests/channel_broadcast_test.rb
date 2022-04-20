@@ -23,8 +23,8 @@ feature "Broadcast data from channel" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
-    assert_equal ack, client2.receive
+    assert_message ack, client.receive
+    assert_message ack, client2.receive
   end
 
   scenario %(
@@ -45,7 +45,7 @@ feature "Broadcast data from channel" do
       }
     }
 
-    assert_equal msg, client.receive
-    assert_equal msg, client2.receive
+    assert_message msg, client.receive
+    assert_message msg, client2.receive
   end
 end

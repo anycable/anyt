@@ -45,7 +45,7 @@ feature "Request" do
       "identifier" => {channel: a_channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
 
     subscribe_request = {command: "subscribe", identifier: {channel: b_channel}.to_json}
 
@@ -55,7 +55,7 @@ feature "Request" do
       "identifier" => {channel: b_channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
 
     subscribe_request = {command: "subscribe", identifier: {channel: a_channel}.to_json}
 
@@ -65,7 +65,7 @@ feature "Request" do
       "identifier" => {channel: a_channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client2.receive
+    assert_message ack, client2.receive
 
     subscribe_request = {command: "subscribe", identifier: {channel: b_channel}.to_json}
 
@@ -75,7 +75,7 @@ feature "Request" do
       "identifier" => {channel: b_channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client2.receive
+    assert_message ack, client2.receive
 
     client2.close
 
@@ -90,8 +90,8 @@ feature "Request" do
 
     msgs = [client.receive, client.receive]
 
-    assert_includes msgs, msg
-    assert_includes msgs, msg2
+    assert_includes_message msgs, msg
+    assert_includes_message msgs, msg2
   end
 
   scenario %(
@@ -106,7 +106,7 @@ feature "Request" do
       "identifier" => {channel: c_channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
 
     subscribe_request = {command: "subscribe", identifier: {channel: c_channel, id: 1}.to_json}
 
@@ -116,7 +116,7 @@ feature "Request" do
       "identifier" => {channel: c_channel, id: 1}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client2.receive
+    assert_message ack, client2.receive
 
     subscribe_request = {command: "subscribe", identifier: {channel: c_channel, id: 2}.to_json}
 
@@ -126,7 +126,7 @@ feature "Request" do
       "identifier" => {channel: c_channel, id: 2}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client2.receive
+    assert_message ack, client2.receive
 
     client2.close
 
@@ -142,7 +142,7 @@ feature "Request" do
 
     msgs = [client.receive, client.receive]
 
-    assert_includes msgs, msg
-    assert_includes msgs, msg2
+    assert_includes_message msgs, msg
+    assert_includes_message msgs, msg2
   end
 end

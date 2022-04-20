@@ -19,8 +19,8 @@ feature "Streams with many clients" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
-    assert_equal ack, client2.receive
+    assert_message ack, client.receive
+    assert_message ack, client2.receive
   end
 
   scenario %(
@@ -30,8 +30,8 @@ feature "Streams with many clients" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
-    assert_equal msg, client.receive
-    assert_equal msg, client2.receive
+    assert_message msg, client.receive
+    assert_message msg, client2.receive
   end
 
   scenario %(
@@ -41,8 +41,8 @@ feature "Streams with many clients" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
-    assert_equal msg, client.receive
-    assert_equal msg, client2.receive
+    assert_message msg, client.receive
+    assert_message msg, client2.receive
 
     unsubscribe_request = {command: "unsubscribe", identifier: {channel: channel}.to_json}
 
@@ -55,7 +55,7 @@ feature "Streams with many clients" do
 
     msg2 = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
-    assert_equal msg2, client2.receive
+    assert_message msg2, client2.receive
     assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
   end
 end

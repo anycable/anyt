@@ -23,7 +23,7 @@ feature "Subscription perform methods" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -39,7 +39,7 @@ feature "Subscription perform methods" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => "tock"}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 
   scenario %(
@@ -55,6 +55,6 @@ feature "Subscription perform methods" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"response" => "hello"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 end

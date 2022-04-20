@@ -16,7 +16,7 @@ feature "Broadcast data to stream" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -34,7 +34,7 @@ feature "Broadcast data to stream" do
       }
     }
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 
   scenario %(
@@ -47,7 +47,7 @@ feature "Broadcast data to stream" do
       "message" => "<script>alert('Message!');</script>"
     }
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 
   scenario %(
@@ -60,6 +60,6 @@ feature "Broadcast data to stream" do
       "message" => '{"script":{"alert":"Message!"}}'
     }
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 end

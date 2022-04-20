@@ -20,7 +20,7 @@ feature "Subscription aknowledgement" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -34,6 +34,6 @@ feature "Subscription aknowledgement" do
       "identifier" => {channel: rejector_channel}.to_json, "type" => "reject_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 end

@@ -10,11 +10,13 @@ feature "Request" do
     Receives disconnect message when rejected
   ) do
     client = build_client(qs: "test=reasons&reason=unauthorized")
-    assert_equal(
+    assert_message(
+      {
+        "type" => "disconnect",
+        "reconnect" => false,
+        "reason" => "unauthorized"
+      },
       client.receive,
-      "type" => "disconnect",
-      "reconnect" => false,
-      "reason" => "unauthorized"
     )
 
     client.wait_for_close

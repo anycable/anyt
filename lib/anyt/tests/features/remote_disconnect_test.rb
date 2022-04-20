@@ -10,7 +10,7 @@ feature "Remote disconnect" do
    Close single connection by id
   ) do
     client = build_client(qs: "test=uid&uid=26", ignore: %w[ping])
-    assert_equal client.receive, "type" => "welcome"
+    assert_message({"type" => "welcome"}, client.receive)
 
     # Prevent race conditions when we send disconnect before internal channel subscription has been made
     # (only for Action Cable)
@@ -19,11 +19,13 @@ feature "Remote disconnect" do
 
     # Waiting for https://github.com/rails/rails/pull/39544
     unless Anyt.config.use_action_cable
-      assert_equal(
+      assert_message(
+        {
+          "type" => "disconnect",
+          "reconnect" => true,
+          "reason" => "remote"
+        },
         client.receive,
-        "type" => "disconnect",
-        "reconnect" => true,
-        "reason" => "remote"
       )
     end
 

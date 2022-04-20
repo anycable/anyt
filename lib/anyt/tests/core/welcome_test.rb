@@ -5,6 +5,6 @@ feature "Welcome" do
     Client receives "welcome" message
   ) do
     client = build_client(ignore: ["ping"])
-    assert_equal client.receive, "type" => "welcome"
+    assert_message({"type" => "welcome"}, client.receive)
   end
 end

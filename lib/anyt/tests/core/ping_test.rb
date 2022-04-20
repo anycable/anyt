@@ -13,7 +13,7 @@ feature "Ping" do
 
       current_stamp = ping["message"]
 
-      assert_equal ping["type"], "ping"
+      assert_equal "ping", ping["type"]
       assert_kind_of Integer, current_stamp
       refute_operator previous_stamp, :>=, current_stamp
 

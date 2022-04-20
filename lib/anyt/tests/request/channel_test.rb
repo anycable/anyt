@@ -13,7 +13,7 @@ feature "Request" do
     Channel has access to request
   ) do
     client = build_client(qs: "token=secret", ignore: %w[ping])
-    assert_equal client.receive, "type" => "welcome"
+    assert_message({"type" => "welcome"}, client.receive)
 
     subscribe_request = {command: "subscribe", identifier: {channel: channel}.to_json}
 
@@ -23,6 +23,6 @@ feature "Request" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 end

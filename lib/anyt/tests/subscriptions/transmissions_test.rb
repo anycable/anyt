@@ -17,16 +17,16 @@ feature "Subscription transmissions" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => "hello"}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => "world"}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
 
     ack = {
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 end

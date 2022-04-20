@@ -25,7 +25,7 @@ feature "Stop streams" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -37,7 +37,7 @@ feature "Stop streams" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
 
     perform_request = {
       :command => "message",
@@ -52,6 +52,6 @@ feature "Stop streams" do
     ActionCable.server.broadcast("b", {data: "Z"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Z"}}
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 end

@@ -17,7 +17,7 @@ feature "Multiple streams" do
       "identifier" => {channel: channel}.to_json, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -27,13 +27,13 @@ feature "Multiple streams" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
 
     ActionCable.server.broadcast("b", {data: "Y"})
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "Y"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 
   scenario %(
@@ -43,7 +43,7 @@ feature "Multiple streams" do
 
     msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
 
     unsubscribe_request = {command: "unsubscribe", identifier: {channel: channel}.to_json}
 

@@ -37,7 +37,7 @@ feature "Channel state" do
       "identifier" => identifier, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client.receive
+    assert_message ack, client.receive
   end
 
   scenario %(
@@ -53,7 +53,7 @@ feature "Channel state" do
 
     msg = {"identifier" => identifier, "message" => {"count" => 3, "name" => "chipolino"}}
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 
   scenario %(
@@ -67,7 +67,7 @@ feature "Channel state" do
       "identifier" => identifier2, "type" => "confirm_subscription"
     }
 
-    assert_equal ack, client2.receive
+    assert_message ack, client2.receive
 
     client2.close
 
@@ -76,6 +76,6 @@ feature "Channel state" do
       "message" => {"data" => "user left: chipollone"}
     }
 
-    assert_equal msg, client.receive
+    assert_message msg, client.receive
   end
 end

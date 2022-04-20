@@ -14,15 +14,17 @@ feature "Server restart" do
       ignore: %(ping)
     )
 
-    assert_equal client.receive, "type" => "welcome"
+    assert_message({"type" => "welcome"}, client.receive)
 
     restart_server!
 
-    assert_equal(
-      client.receive,
-      "type" => "disconnect",
-      "reconnect" => true,
-      "reason" => "server_restart"
+    assert_message(
+      {
+        "type" => "disconnect",
+        "reconnect" => true,
+        "reason" => "server_restart"
+      },
+      client.receive
     )
   end
 end

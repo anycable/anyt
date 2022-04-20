@@ -30,6 +30,20 @@ module Anyt
     def remote_client
       @remote_client ||= RemoteControl::Client.connect(Anyt.config.remote_control_port)
     end
+
+    # Verifies that the actual message Hash is a subset of the expected one
+    # (so we can ignore some irrelevant fields)
+    def assert_message(expected, actual)
+      assert_equal expected, actual.slice(*expected.keys)
+    end
+
+    def assert_includes_message(collection, expected)
+      found = collection.find do |el|
+        el.slice(*expected.keys) == expected
+      end
+
+      assert found, "Expecte #{collection} to include a message matching #{expected}"
+    end
   end
 end
 
