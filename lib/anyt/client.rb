@@ -18,6 +18,7 @@ module Anyt
     def initialize(
       ignore: [], url: Anyt.config.target_url, qs: "",
       cookies: "", headers: {},
+      protocol: "actioncable-v1-json",
       timeout_multiplier: Anyt.config.timeout_multiplier
     )
       ignore_message_types = @ignore_message_types = ignore
@@ -28,6 +29,7 @@ module Anyt
       @timeout_multiplier = timeout_multiplier
 
       headers = headers.merge("cookie" => cookies)
+      headers["Sec-WebSocket-Protocol"] = protocol
 
       open = Concurrent::Promise.new
 
