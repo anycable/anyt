@@ -24,6 +24,10 @@ module Anyt # :nodoc:
           **AnyCable.config.to_grpc_params
         )
 
+        if defined?(::AnyCable::Middlewares::EnvSid)
+          AnyCable.middleware.use(::AnyCable::Middlewares::EnvSid)
+        end
+
         AnyCable.middleware.freeze
 
         server.start
