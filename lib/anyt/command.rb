@@ -6,8 +6,6 @@ module Anyt
   # Runs system command (websocket server)
   module Command
     class << self
-      # rubocop: disable Metrics/MethodLength
-      # rubocop: disable Metrics/AbcSize
       def run
         return if running?
 

@@ -25,7 +25,7 @@ feature "Remote disconnect" do
           "reconnect" => true,
           "reason" => "remote"
         },
-        client.receive,
+        client.receive
       )
     end
 

@@ -18,6 +18,8 @@ Gem::Specification.new do |spec|
 
   spec.executables << "anyt"
 
+  spec.required_ruby_version = ">= 2.6.0"
+
   spec.add_dependency "rack", "~> 2.0"
   spec.add_dependency "minitest", "~> 5.10"
   spec.add_dependency "minitest-reporters", "~> 1.1.0"

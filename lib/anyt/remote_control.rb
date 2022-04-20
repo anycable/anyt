@@ -7,7 +7,7 @@ module Anyt
   module RemoteControl
     class Server
       class << self
-        alias start new
+        alias_method :start, :new
       end
 
       def initialize(port)

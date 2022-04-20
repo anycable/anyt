@@ -13,7 +13,7 @@ class TestApp < Rails::Application
   secrets.secret_token = "secret_token"
   secrets.secret_key_base = "secret_key_base"
 
-  config.logger = Logger.new(STDOUT)
+  config.logger = Logger.new($stdout)
   config.log_level = AnyCable.config.log_level
   config.eager_load = true
 

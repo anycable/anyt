@@ -16,7 +16,7 @@ feature "Request" do
         "reconnect" => false,
         "reason" => "unauthorized"
       },
-      client.receive,
+      client.receive
     )
 
     client.wait_for_close

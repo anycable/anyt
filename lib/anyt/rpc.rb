@@ -13,7 +13,6 @@ module Anyt # :nodoc:
       attr_accessor :running
       attr_reader :server
 
-      # rubocop: disable Metrics/AbcSize,Metrics/MethodLength
       def start
         AnyCable.logger.debug "Starting RPC server ..."
 

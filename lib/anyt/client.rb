@@ -12,9 +12,6 @@ module Anyt
     WAIT_WHEN_EXPECTING_EVENT = 5
     WAIT_WHEN_NOT_EXPECTING_EVENT = 0.5
 
-    # rubocop: disable Metrics/AbcSize
-    # rubocop: disable Metrics/MethodLength
-    # rubocop: disable Metrics/BlockLength
     def initialize(
       ignore: [], url: Anyt.config.target_url, qs: "",
       cookies: "", headers: {},
