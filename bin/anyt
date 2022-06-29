@@ -10,6 +10,7 @@ begin
 rescue => e
   puts 'Bummer! There is an error:'
   puts e
+  puts e.backtrace.take(10).join("\n")
   exit 1
 end
 
