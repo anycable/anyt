@@ -15,8 +15,8 @@ module Anyt
   module Cli # :nodoc:
     class << self
       # CLI entrypoint
-      def run
-        parse_options!
+      def run(args = ARGV)
+        parse_options!(args)
 
         ActionCable.server.config.logger = Rails.logger = AnyCable.logger
 
@@ -68,7 +68,7 @@ module Anyt
 
       private
 
-      def parse_options!
+      def parse_options!(args)
         parser =
           OptionParser.new do |cli|
             cli.banner = <<~BANNER
@@ -153,7 +153,7 @@ module Anyt
             end
           end
 
-        parser.parse!
+        parser.parse!(args)
       rescue OptionParser::InvalidOption => e
         unknown_option = e.args.first
         puts "This option looks unfamiliar: #{unknown_option}. A typo?"
