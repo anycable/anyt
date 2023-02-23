@@ -42,6 +42,8 @@ module ApplicationCable
   end
 end
 
+ECHO_DELAY = ENV["ANYCABLE_BENCHMARK_ECHO_DELAY"].to_f
+
 # BenchmarkChannel is useful when running Rails app only or RPC only
 class BenchmarkChannel < ApplicationCable::Channel
   def subscribed
@@ -49,6 +51,9 @@ class BenchmarkChannel < ApplicationCable::Channel
   end
 
   def echo(data)
+    if ECHO_DELAY > 0
+      sleep ECHO_DELAY
+    end
     transmit data
   end
 
