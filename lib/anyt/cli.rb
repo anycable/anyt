@@ -97,13 +97,11 @@ module Anyt
 
             cli.on("--only-rpc", TrueClass, "Run only RPC server") do |flag|
               @only_rpc = flag
-              @skip_tests = true
             end
 
             cli.on("--only-rails", TrueClass, "Run only Rails server") do
               @skip_rpc = true
               @only_rails = true
-              @skip_tests = true
 
               configure_rails_command!
             end
