@@ -102,6 +102,7 @@ module Anyt
             cli.on("--only-rails", TrueClass, "Run only Rails server") do
               @skip_rpc = true
               @only_rails = true
+              @skip_tests = true
 
               configure_rails_command!
             end
