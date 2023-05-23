@@ -63,7 +63,6 @@ class BenchmarkChannel < ApplicationCable::Channel
     transmit data
   end
 
-
   def counter(data)
     num = data.fetch("num", 100).to_i
     num.times { ActionCable.server.broadcast "all", {text: "Count: #{_1}"} }
