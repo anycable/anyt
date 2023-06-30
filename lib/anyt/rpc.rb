@@ -6,38 +6,36 @@ require "redis"
 
 module Anyt # :nodoc:
   # Runs AnyCable RPC server in the background
-  module RPC
+  class RPC
     using AsyncHelpers
 
-    class << self
-      attr_accessor :running
-      attr_reader :server
+    attr_accessor :running
+    attr_reader :server
 
-      def start
-        AnyCable.logger.debug "Starting RPC server ..."
+    def start
+      AnyCable.logger.debug "Starting RPC server ..."
 
-        AnyCable.server_callbacks.each(&:call)
+      AnyCable.server_callbacks.each(&:call)
 
-        @server = AnyCable::GRPC::Server.new(
-          host: AnyCable.config.rpc_host,
-          **AnyCable.config.to_grpc_params
-        )
+      @server = AnyCable::GRPC::Server.new(
+        host: AnyCable.config.rpc_host,
+        **AnyCable.config.to_grpc_params
+      )
 
-        if defined?(::AnyCable::Middlewares::EnvSid)
-          AnyCable.middleware.use(::AnyCable::Middlewares::EnvSid)
-        end
-
-        AnyCable.middleware.freeze
-
-        server.start
-
-        AnyCable.logger.debug "RPC server started"
+      if defined?(::AnyCable::Middlewares::EnvSid)
+        AnyCable.middleware.use(::AnyCable::Middlewares::EnvSid)
       end
-      # rubocop: enable Metrics/AbcSize,Metrics/MethodLength
 
-      def stop
-        server&.stop
-      end
+      AnyCable.middleware.freeze
+
+      server.start
+
+      AnyCable.logger.debug "RPC server started"
+    end
+    # rubocop: enable Metrics/AbcSize,Metrics/MethodLength
+
+    def stop
+      server&.stop
     end
 
     AnyCable.connection_factory = ActionCable.server.config.connection_class.call

@@ -13,6 +13,13 @@ $stdout.sync = true
 
 module Anyt
   module Cli # :nodoc:
+    DUMMY_ROOT = ::File.expand_path(
+      "config.ru",
+      ::File.join(::File.dirname(__FILE__), "dummy")
+    )
+
+    RAILS_COMMAND = "bundle exec puma #{DUMMY_ROOT} -t #{ENV.fetch("RAILS_MAX_THREADS", 5)}"
+
     class << self
       # CLI entrypoint
       def run(args = ARGV)
@@ -39,16 +46,29 @@ module Anyt
           # Start RPC server (unless specified otherwise, e.g. when
           # we want to test Action Cable itself)
           unless @skip_rpc
-            RPC.start
+            http_rpc = AnyCable.config.http_rpc_mount_path.present?
+
+            @rpc_command =
+              if http_rpc
+                Command.new(RAILS_COMMAND)
+              else
+                RPC.new
+              end
+
+            @rpc_command.start
 
             if @only_rpc
-              RPC.server.wait_till_terminated
+              if http_rpc
+                wait_till_terminated
+              else
+                @rpc_command.server.wait_till_terminated
+              end
               return
             end
           end
 
           # Start webosocket server under test
-          Command.run
+          @command = Command.new.run
 
           unless @skip_tests
             # Run tests
@@ -59,8 +79,8 @@ module Anyt
         rescue Interrupt => e
           $stdout.puts "#{e.message}. Good-bye!"
         ensure
-          RPC.stop unless @skip_rpc
-          Command.stop
+          @rpc_command&.stop unless @skip_rpc
+          @command&.stop
         end
 
         result
@@ -161,11 +181,7 @@ module Anyt
       end
 
       def configure_rails_command!
-        dummy_path = ::File.expand_path(
-          "config.ru",
-          ::File.join(::File.dirname(__FILE__), "dummy")
-        )
-        Anyt.config.command = "bundle exec puma #{dummy_path}"
+        Anyt.config.command = RAILS_COMMAND
         Anyt.config.use_action_cable = true
       end
 
