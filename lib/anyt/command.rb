@@ -5,6 +5,18 @@ require "childprocess"
 module Anyt
   # Runs system command (websocket server)
   class Command
+    class << self
+      attr_reader :instance
+
+      def default
+        @instance ||= new
+      end
+
+      def restart
+        instance&.restart
+      end
+    end
+
     attr_reader :cmd
 
     def initialize(cmd = Anyt.config.command)
@@ -36,7 +48,7 @@ module Anyt
       raise "Command failed to start" unless running?
     end
 
-    alias start run
+    alias_method :start, :run
 
     # rubocop: enable Metrics/MethodLength
     # rubocop: enable Metrics/AbcSize

@@ -75,7 +75,7 @@ class BenchmarkChannel < ApplicationCable::Channel
   end
 end
 
-ActionCable.server.config.cable = {"adapter" => ENV.fetch("ACTION_CABLE_ADAPTER", "redis") }
+ActionCable.server.config.cable = {"adapter" => ENV.fetch("ACTION_CABLE_ADAPTER", "redis")}
 ActionCable.server.config.connection_class = -> { ApplicationCable::Connection }
 ActionCable.server.config.disable_request_forgery_protection = true
 ActionCable.server.config.logger =

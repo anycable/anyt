@@ -68,7 +68,8 @@ module Anyt
           end
 
           # Start webosocket server under test
-          @command = Command.new.run
+          @command = Command.default
+          @command.run
 
           unless @skip_tests
             # Run tests
