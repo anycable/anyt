@@ -20,6 +20,8 @@ class TestApp < Rails::Application
   config.paths["config/routes.rb"] << File.join(__dir__, "routes.rb")
 end
 
+DISCONNECT_DELAY = ENV["ANYCABLE_DISCONNECT_DELAY"].to_f
+
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     delegate :params, to: :request
@@ -32,6 +34,9 @@ module ApplicationCable
     end
 
     def disconnect
+      if DISCONNECT_DELAY > 0
+        sleep DISCONNECT_DELAY
+      end
       logger.debug "Disconnected"
     end
   end
