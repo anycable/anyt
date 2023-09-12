@@ -2,6 +2,7 @@
 
 ENV["TERM"] = "#{ENV["TERM"]}color" unless ENV["TERM"]&.match?(/color/)
 require "minitest/spec"
+require "minitest/unit"
 require "minitest/reporters"
 
 module Anyt
