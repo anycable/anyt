@@ -29,8 +29,8 @@ module Anyt
     end
 
     def tests_filter
-      only_rxp = /(#{only_tests.join('|')})/ if only_tests
-      except_rxp = /(#{except_tests.join('|')})/ if except_tests
+      only_rxp = /(#{only_tests.join("|")})/ if only_tests
+      except_rxp = /(#{except_tests.join("|")})/ if except_tests
 
       @tests_filter ||= lambda do |path|
         (only_rxp.nil? || only_rxp.match?(path)) &&
