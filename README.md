@@ -2,9 +2,10 @@
 [![Gem Version](https://badge.fury.io/rb/anyt.svg)](https://rubygems.org/gems/anyt)
 ![Test](https://github.com/anycable/anyt/workflows/Test/badge.svg)
 
-# AnyCable Conformance Testing Tool
+# Action Cable / AnyCable conformance testing tool
 
-AnyT is a command-line tool to test your [AnyCable](http://anycable.io)-compatible WebSocket servers.
+AnyT is a command-line tool to test your Action Cable or [AnyCable](http://anycable.io)-compatible WebSocket servers.
+
 It contains a set of tests to determine which features are supported by the implementation under consideration.
 
 ## Installation

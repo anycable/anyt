@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "anyt"
+
 module Anyt
   # Synchronous websocket client
   # Based on https://github.com/rails/rails/blob/v5.0.1/actioncable/test/client_test.rb

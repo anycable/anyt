@@ -15,14 +15,14 @@ jobs:
       CI: true
     services:
       redis:
-        image: redis:5.0-alpine
+        image: redis:6.0-alpine
         ports: ["6379:6379"]
         options: --health-cmd="redis-cli ping" --health-interval 1s --health-timeout 3s --health-retries 30
     steps:
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0
+        ruby-version: 3.2
         bundler-cache: true
     - name: Run tests
       run: |
