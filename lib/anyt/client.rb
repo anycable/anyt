@@ -29,7 +29,8 @@ module Anyt
     WAIT_WHEN_EXPECTING_EVENT = 5
     WAIT_WHEN_NOT_EXPECTING_EVENT = 0.5
 
-    private attr_reader :logger
+    attr_reader :logger
+    private :logger
 
     attr_reader :url
 
