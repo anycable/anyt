@@ -55,8 +55,10 @@ class BenchmarkChannel < ApplicationCable::Channel
   end
 
   def echo(data)
-    if ECHO_DELAY > 0
-      sleep ECHO_DELAY
+    puts "ECHO: #{data.inspect}" if data["verbose"]
+    delay = data.fetch("delay", ECHO_DELAY).to_f
+    if delay > 0
+      sleep delay
     end
     transmit data
   end

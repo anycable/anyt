@@ -25,6 +25,12 @@ module Anyt
       def run(args = ARGV)
         parse_options!(args)
 
+        if Anyt.config.list_tests
+          Tests.load_tests
+          Tests.list
+          return 0
+        end
+
         ActionCable.server.config.logger = Rails.logger = AnyCable.logger
 
         result = 1
@@ -128,6 +134,11 @@ module Anyt
               configure_rails_command!
             end
 
+            cli.on("-l", "--list", TrueClass, "List test scenarios") do
+              Anyt.config.list_tests = true
+              @skip_rpc = true
+            end
+
             cli.on("--self-check", "Run tests again Action Cable itself") do
               @skip_rpc = true
 
@@ -140,6 +151,10 @@ module Anyt
 
             cli.on("--except test1,test2,test3", Array, "Exclude specified tests") do |except_tests|
               Anyt.config.except_tests = except_tests
+            end
+
+            cli.on("-e filter", "Run only tests matching the descripton") do |filter_tests|
+              Anyt.config.filter_tests = filter_tests
             end
 
             cli.on("--wait-command=TIMEOUT", Integer,

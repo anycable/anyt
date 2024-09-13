@@ -96,6 +96,9 @@ module Minitest::Spec::DSL
   # Simplified version of `it` which doesn't care
   # about unique method names
   def scenario(desc, &block)
+    full_desc = "#{name.gsub("\n", " ").strip} #{desc.gsub("\n", " ").strip}"
+    return if Anyt.config.example_filter && !Anyt.config.example_filter.match?(full_desc)
+
     block ||= proc { skip "(no tests defined)" }
 
     define_method "test_ #{desc}", &block

@@ -8,6 +8,8 @@ module Anyt
     attr_config :command,
       :only_tests,
       :except_tests,
+      :filter_tests,
+      :list_tests,
       :tests_relative_path,
       remote_control_port: 8919,
       use_action_cable: false,
@@ -36,6 +38,12 @@ module Anyt
         (only_rxp.nil? || only_rxp.match?(path)) &&
           (except_rxp.nil? || !except_rxp.match?(path))
       end
+    end
+
+    def example_filter
+      return unless filter_tests
+
+      /#{filter_tests}/i
     end
   end
 end

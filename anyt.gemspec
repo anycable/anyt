@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "minitest", "~> 5.10"
   spec.add_dependency "minitest-reporters", "~> 1.1.0"
   spec.add_dependency "anycable-rails", "> 1.0.99", "< 2.0"
-  spec.add_dependency "redis", "~> 4.0"
+  spec.add_dependency "redis", ">= 4.0"
   spec.add_dependency "childprocess", "~> 3.0"
 
   spec.add_development_dependency "bundler", "~> 2"

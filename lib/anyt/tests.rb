@@ -17,7 +17,27 @@ module Anyt
         Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
         AnyCable.logger.debug "Run tests against: #{Anyt.config.target_url}"
+
         Minitest.run
+      end
+
+      def list
+        printer = Object.new
+        printer.extend include ANSI::Code
+
+        Minitest::Runnable.runnables.each do |runnable|
+          def runnable.test_order
+            :sorted
+          end
+          next unless runnable.runnable_methods.any?
+
+          $stdout.puts(runnable.name)
+
+          runnable.runnable_methods.each do |method|
+            test_name = method.gsub(/^test_/, "").strip
+            $stdout.puts(printer.magenta { "  #{test_name}" })
+          end
+        end
       end
 
       # Load tests code (filtered if present)
