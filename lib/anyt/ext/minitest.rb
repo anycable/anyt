@@ -21,7 +21,7 @@ module Anyt
     end
 
     def restart_server!
-      if Anyt.config.use_action_cable
+      if Anyt.config.use_action_cable && !Anyt.config.custom_action_cable
         remote_client.restart_action_cable
       else
         Command.restart

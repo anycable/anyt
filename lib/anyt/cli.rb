@@ -145,6 +145,11 @@ module Anyt
               configure_rails_command!
             end
 
+            cli.on("--rails-command=COMMAND", "A custom command to run Rails server") do |cmd|
+              configure_rails_command!(cmd)
+              Anyt.config.custom_action_cable = true
+            end
+
             cli.on("--only test1,test2,test3", Array, "Run only specified tests") do |only_tests|
               Anyt.config.only_tests = only_tests
             end
@@ -196,8 +201,8 @@ module Anyt
         exit 1
       end
 
-      def configure_rails_command!
-        Anyt.config.command = RAILS_COMMAND
+      def configure_rails_command!(cmd = RAILS_COMMAND)
+        Anyt.config.command = cmd % {config: DUMMY_ROOT}
         Anyt.config.use_action_cable = true
       end
 

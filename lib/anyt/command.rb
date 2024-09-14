@@ -59,6 +59,7 @@ module Anyt
       AnyCable.logger.debug "Restarting command PID: #{process.pid}"
 
       stop
+
       process.wait
 
       run
