@@ -34,7 +34,6 @@ feature "Subscriptions" do
   scenario %(
     Periodic timers
   ) do
-
     msg = client.receive
     assert_equal 1, msg["message"]["progress"]
 

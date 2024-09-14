@@ -84,8 +84,8 @@ end
 # Kernel extensions
 module Kernel
   ## Wraps `describe` and include shared helpers
-  private def feature(*args, &block)
-    cls = describe(*args, &block)
+  private def feature(...)
+    cls = describe(...)
     cls.include Anyt::TestHelpers
     cls
   end
@@ -108,12 +108,12 @@ module Minitest::Spec::DSL
 
   # Generates Channel class dynamically and
   # add memoized helper to access its name
-  def channel(id = nil, &block)
+  def channel(id = nil, &)
     class_name = @name.gsub(/\s+/, "_")
     class_name += "_#{id}" if id
     class_name += "_channel"
 
-    cls = Class.new(ApplicationCable::Channel, &block)
+    cls = Class.new(ApplicationCable::Channel, &)
 
     Anyt::TestChannels.const_set(class_name.classify, cls)
 
@@ -123,8 +123,8 @@ module Minitest::Spec::DSL
   end
 
   # Add new #connect handler
-  def connect_handler(tag, &block)
-    Anyt::ConnectHandlers.add(tag, &block)
+  def connect_handler(tag, &)
+    Anyt::ConnectHandlers.add(tag, &)
   end
 end
 
