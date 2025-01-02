@@ -173,9 +173,9 @@ module Anyt
             end
 
             cli.on("-rPATH", "--require=PATH",
-              "Path to additional tests (e.g. features/*.rb") do |path|
-              Anyt.config.tests_relative_path = path
-              ENV["ANYT_TESTS_RELATIVE_PATH"] = path
+              "Paths to additional tests (e.g. features/*.rb") do |paths|
+              Anyt.config.tests_relative_path = paths
+              ENV["ANYT_TESTS_RELATIVE_PATH"] = paths
             end
 
             cli.on("--debug", "Enable debug mode.") do

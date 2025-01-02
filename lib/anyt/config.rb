@@ -21,10 +21,12 @@ module Anyt
     coerce_types only_tests: {type: :string, array: true}
     coerce_types except_tests: {type: :string, array: true}
 
-    def tests_path
+    def test_paths
       return unless tests_relative_path
 
-      File.expand_path(tests_relative_path, Dir.pwd)
+      tests_relative_path.split(",").map do |path|
+        File.expand_path(path, Dir.pwd)
+      end
     end
 
     def filter_tests?

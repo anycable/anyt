@@ -9,12 +9,10 @@ eval_gemfile "gemfiles/rubocop.gemfile"
 # Specify your gem's dependencies in anyt.gemspec
 gemspec name: "anyt"
 
-if File.directory?(File.join(__dir__, "../anycable"))
+if File.directory?(File.join(__dir__, "../anycable-rb"))
   $stdout.puts "\n=== Using local AnyCable gems ===\n\n"
-  path ".." do
-    gem "anycable"
-    gem "anycable-rails"
-  end
+  gem "anycable", path: "../anycable-rb"
+  gem "anycable-rails", path: "../anycable-rails"
 else
   gem "anycable", github: "anycable/anycable"
   gem "anycable-rails", github: "anycable/anycable-rails"

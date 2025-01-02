@@ -74,7 +74,7 @@ module Anyt
 
       def test_files_patterns
         @test_files_patterns ||= DEFAULT_PATTERNS.dup.tap do |patterns|
-          patterns << Anyt.config.tests_path if Anyt.config.tests_path
+          patterns.concat(Anyt.config.test_paths) if Anyt.config.test_paths
         end
       end
     end
