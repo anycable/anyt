@@ -14,7 +14,7 @@ if File.directory?(File.join(__dir__, "../anycable-rb"))
   gem "anycable", path: "../anycable-rb"
   gem "anycable-rails", path: "../anycable-rails"
 else
-  gem "anycable", github: "anycable/anycable"
+  gem "anycable", github: "anycable/anycable-rb"
   gem "anycable-rails", github: "anycable/anycable-rails"
 end
 
