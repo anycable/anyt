@@ -18,7 +18,7 @@ module Anyt
       ::File.join(::File.dirname(__FILE__), "dummy")
     )
 
-    RAILS_COMMAND = "bundle exec puma #{DUMMY_ROOT} -t #{ENV.fetch("RAILS_MAX_THREADS", 5)}"
+    RAILS_COMMAND = "bundle exec puma #{DUMMY_ROOT} -t #{ENV.fetch("RAILS_MAX_THREADS", 5)} -p #{ENV.fetch("PUMA_PORT", 9292)}"
 
     class << self
       # CLI entrypoint
