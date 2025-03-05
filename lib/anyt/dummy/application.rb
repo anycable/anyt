@@ -23,6 +23,10 @@ DISCONNECT_DELAY = ENV["ANYCABLE_DISCONNECT_DELAY"].to_f
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    if respond_to?(:allow_public_streams?)
+      def allow_public_streams? = true
+    end
+
     delegate :params, to: :request
 
     identified_by :uid

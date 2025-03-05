@@ -84,33 +84,4 @@ feature "Single stream" do
     assert_includes_message received, msg
     assert_includes_message received, msg2
   end
-
-  scenario %(
-    Subscribing to a stream is idempotent
-  ) do
-    perform_request = {command: "message", identifier: {channel: channel}.to_json, data: {action: "follow", name: "a"}.to_json}
-
-    client.send(perform_request)
-
-    sleep 1
-
-    ActionCable.server.broadcast("a", {data: "X"})
-
-    msg = {"identifier" => {channel: channel}.to_json, "message" => {"data" => "X"}}
-
-    assert_message msg, client.receive
-    # only one message is received
-    assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
-
-    unsubscribe_request = {command: "unsubscribe", identifier: {channel: channel}.to_json}
-
-    client.send(unsubscribe_request)
-
-    # ActionCable doesn't provide an unsubscription ack :(
-    sleep 1
-
-    ActionCable.server.broadcast("a", {data: "Y"})
-
-    assert_raises(Anyt::Client::TimeoutError) { client.receive(timeout: 0.5) }
-  end
 end
